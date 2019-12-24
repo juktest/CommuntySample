@@ -4,6 +4,11 @@ import Header from "Components/Header";
 import { getCommunityList } from "../../Components/Api";
 import styled from "styled-components";
 
+import {BoardList ,BoardTitle, GotoDetail } from "./style";
+import { Button } from "Components/Style";
+import { Board } from "../CommunityDetail/style";
+import { Color } from "../../Components/Style";
+
 class ListPresenter extends React.Component {
   state = {
     List: ""
@@ -24,11 +29,6 @@ class ListPresenter extends React.Component {
   }
 
   render() {
-    const GoToDetail = styled.a``;
-    const ListContainer = styled.div`
-      display: flex;
-      flex-direction: column;
-    `;
     let stateNull = true;
     let List;
     if (this.state.List !== "") {
@@ -43,16 +43,28 @@ class ListPresenter extends React.Component {
     return (
       <div>
         <Header />
-        <ListContainer>
-          <a href={`/community/${params.univid}/new`}>글쓰기</a>
-          {stateNull
-            ? ""
-            : List.map(list => (
-                <GoToDetail href={`/detail/${list.univid}/${list.id}`}>
-                  {list.id} {list.title} {list.writer} 
-                </GoToDetail>
-              ))}
-        </ListContainer>
+          <Board>
+            <Button color = {Color.mint}href={`/community/${params.univid}/new`}>글쓰기</Button>
+            
+            <BoardList>
+              <BoardTitle>제목</BoardTitle>
+              <BoardTitle>작성자</BoardTitle>
+              <BoardTitle>작성일</BoardTitle>
+              <BoardTitle>조회수</BoardTitle>
+            
+              {stateNull
+              ? ""
+              : List.map((list,index) => (<>
+                  <GotoDetail href={`/detail/${list.univid}/${list.id}`}>
+                    {list.title} 
+                  </GotoDetail>
+                  <div>{list.writer}</div>
+                  <div>{list.modifiedDate.slice(0,10)}</div>
+                  <div>{list.views}</div>
+                  </>
+              ))}        
+          </BoardList>
+          </Board>
       </div>
     );
   }

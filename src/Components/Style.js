@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 
 const RecCss = css`
+    text-decoration : none;
+    min-width : fit-content;
     padding : 5px;
     font-size : 1.2rem;
     height : max-content;
@@ -14,7 +16,9 @@ const RadiusButtonCss = css`
 `
 
 export const Color = {
-    deepPink : "#fd9bbb"
+    deepPink : "#fd9bbb",
+    mint : "#4de0c2",
+    green : "rgba(198, 248, 198, 0.692)"
 };
 
 const Buttoncss = css`
@@ -45,6 +49,7 @@ const Buttoncss = css`
 
 export const Button = styled.a`
     ${Buttoncss}
+    
 `
 
 export const SmallButton = styled.a`

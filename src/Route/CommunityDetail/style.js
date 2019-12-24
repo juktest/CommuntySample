@@ -78,13 +78,12 @@ export const CommentBox = styled.div`
     display : flex;
     flex-direction : column;
 
- 
 
     textarea{
         width : 88%;
         height : 5rem;
         font-size : 1rem;
-        
+        resize : none;
         @media(max-width : 500px){
             height:4rem;
         }
@@ -115,14 +114,4 @@ export const CommentBox = styled.div`
 export const BoardContent = styled.p`
     padding : 4px 10px;
     font-weight : 300;
-`
-/*게시글 title*/
-export const BoardTitle = styled.div`
-     font-weight : bold;
-     font-size : 1.2rem;
-
-     min-width : fit-content;
-     &:nth-child(1){
-        text-align : center;
-     }
 `

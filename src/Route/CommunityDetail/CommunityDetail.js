@@ -106,7 +106,7 @@ class CommunityDetail extends React.Component {
                 
                 <CommentBox style = {{flexDirection : "row"}}>
                    <textarea id="comment_text" title="댓글입력" rows= "3"></textarea>
-                  <Button style = {{position : "relative", top : "-8px"}}>댓글입력</Button>
+                   <Button style = {{position : "relative", top : "-8px"}}>댓글입력</Button>
                  </CommentBox>
               </Comment>
           </Board>

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import logo from "img/titleIcon.png";
+import { Color } from "./Style";
 
 const Logo = styled(Link)`
   width: 10rem;
@@ -25,7 +26,7 @@ const NavItem = styled(Link)`
   font-size : 1.2rem;
   text-decoration: none;
   min-width: fit-content;
-  color: #4de0c2;
+  color: ${Color.mint};
 
   padding: 1.2rem;
   

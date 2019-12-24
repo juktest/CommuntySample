@@ -1,5 +1,6 @@
 import logo from "img/mainPageLogo.png";
 import styled, { keyframes, css } from "styled-components";
+import { Color } from "../../Components/Style";
 
 const moveIcon = keyframes`
   from {
@@ -11,7 +12,7 @@ const moveIcon = keyframes`
 `;
 
 export const Container = styled.div`
-  background : rgba(198, 248, 198, 0.692);
+  background : ${Color.green};
   width: 100%;
   height : 100vh;
   
