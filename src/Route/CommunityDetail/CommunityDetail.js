@@ -30,6 +30,7 @@ class CommunityDetail extends React.Component {
         modifiedDate: modifiedDate
       });
     };
+    loaddata();
   }
 
   render() {
