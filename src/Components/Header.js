@@ -62,9 +62,6 @@ const NavigationBar= styled.nav`
   z-index: 99;
   width: 100%;
   
-  position: fixed;
-  top: 0;
-  
   display: flex;
   
   line-height: 1.8rem;
@@ -83,6 +80,7 @@ const NavigationBar= styled.nav`
 
 export default () => {
   const Univ = localStorage.getItem("Univ");
+  
   return (
     <NavigationBar>
       <LeftNav>
