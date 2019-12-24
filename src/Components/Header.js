@@ -4,13 +4,13 @@ import styled, { css } from "styled-components";
 import logo from "img/titleIcon.png";
 
 const Logo = styled(Link)`
-  width: 100px;
-  height: 50px;
+  width: 10rem;
+  height: 4rem;
 
   background-image: url(${logo});
   background-size: contain;
 
-  margin-top : 3px;
+  margin-top : 0.4rem;
 
   ${({ src }) =>
     src &&
@@ -27,7 +27,7 @@ const NavItem = styled(Link)`
   min-width: fit-content;
   color: #4de0c2;
 
-  padding: 14px;
+  padding: 1.2rem;
   
   ${({ color }) =>
     css`
@@ -44,18 +44,18 @@ const NavItem = styled(Link)`
 `;
 
 const LeftNav = styled.div`
-  padding-left: 20px;
+  padding-left: 1rem;
   display: flex;
   justify-content: flex-start;
   width: 50%;
 `;
 
 const RightNav = styled.div`
-  padding-right: 10px;
+  padding-right: 0.8rem;
   display: flex;
   justify-content: flex-end;
   width: 50%;
-  margin-left: 10px;
+  margin-left: 0.8rem;
 `;
 
 const NavigationBar= styled.nav`

@@ -15,13 +15,11 @@ export const Container = styled.div`
   width: 100%;
   height : 100vh;
   
-  div{
+  .container{
     display: flex;
     flex-direction: column;
-  
+    padding : 8rem 0;
     align-items: center;
-  
-    font-size : 20px;
 
     animation-duration: 1.5s;
     animation-name: ${moveIcon};
@@ -29,35 +27,36 @@ export const Container = styled.div`
 `;
 
 export const MainQuestion = styled.span`
-  margin-bottom: 50px;
-  margin-top: 20px;
+  margin-bottom: 2rem;
+  margin-top: 1rem;
 `;
 
 export const SelectUniv = styled.select`
-  width: 130px;
-
+  width: 10rem;
+  height : 2rem;
   background-color : white;
-  display: inline-block;
-  margin-right : 20px;
+  margin-right : 1.3rem;
 
-  height: 26px;
 `;
 
 export const OptionUniv = styled.option``;
 
 
 export const MainLogo = styled.div`
-  margin-top : 7%;
+ 
   width: 40%;
-  height: 300px;
+  height: 18rem;
+  @media(max-height : 700px){
+      height : 6rem;
+  }
   background-position: 50%;
   background-image: url(${logo});
-  min-width: 300px;
-  background-size: 600px;
+  min-width: 30rem;
+  background-size: 40rem;
 
   background-repeat: no-repeat;
   &:hover {
-    background-size: 700px;
+    background-size: 44rem;
   }
 `;
 

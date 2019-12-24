@@ -75,13 +75,24 @@ export const CommentBox = styled.div`
     padding :15px;
     border-bottom : 1px solid pink;
 
+    display : flex;
+    flex-direction : column;
+
+ 
+
     textarea{
-        width : 85%;
-        height : 100px;
+        width : 88%;
+        height : 5rem;
         font-size : 1rem;
+        
+        @media(max-width : 500px){
+            height:4rem;
+        }
     }
     ${Button}{
-        margin-left : 20px;
+        margin-left : 0.6rem;
+        margin-top : 3.2rem;
+        min-width : fit-content;
     }
     div{
         line-height : 1.5rem;

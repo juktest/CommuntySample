@@ -5,5 +5,12 @@ body {
   
     font-family: "나눔고딕", "Helvetica Neue", sans-serif;
   
-    font-size: 12px;
   }
+  html{
+      font-size :13px;
+  }
+
+  @media(max-width : 800px){
+   html{ font-size : 10px;}
+  }
+
