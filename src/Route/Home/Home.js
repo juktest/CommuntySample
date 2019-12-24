@@ -21,9 +21,9 @@ export default () => {
   const handleChangeUniv = e => {
     if (e.target.value === "숭실대") {
       LocalUniv.setUniv("숭실대");
-      document.location.href = "/community/1";
+      localStorage.setItem("Univ", "1");
+      document.location.href = "/room/1";
     }
-    console.log(LocalUniv);
   };
 
   return (

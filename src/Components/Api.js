@@ -11,4 +11,10 @@ export const getPostsList = (univid, postid) => {
 
 export const getCommunityList = univid => {
   const List = allApi.get(`/Community/${univid}`);
+  return List;
+};
+
+export const getRoomList = univid => {
+  const List = allApi.get(`/roomdata/${univid}`);
+  return List;
 };
