@@ -19,19 +19,19 @@ class CommunityDetail extends React.Component {
         match: { params }
       } = this.props;
       const serverPostList = await getPostsList(params.univid, params.postid);
-      const { data } = serverPostList;
+      const {
+        data: { title, writer, body, modifiedDate }
+      } = serverPostList;
+      console.log(title, writer, body, modifiedDate);
       this.setState({
-        title: data.title,
-        writer: data.writer,
-        body: data.body,
-        modifiedDate: data.modifiedDate
+        title: title,
+        writer: writer,
+        body: body,
+        modifiedDate: modifiedDate
       });
-      console.log(data);
     };
-
-    loaddata();
-    console.log(this.state);
   }
+
   render() {
     return (
       <Container>

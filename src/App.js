@@ -1,7 +1,8 @@
 import React from "react";
-import AllRouter from "Components/Router";
+import Router from "Components/Router";
+
 function App() {
-  return <AllRouter />;
+  return <Router />;
 }
 
 export default App;
