@@ -8,3 +8,7 @@ export const getPostsList = (univid, postid) => {
   const Post = allApi.get(`/Community/${univid}/${postid}`);
   return Post;
 };
+
+export const getCommunityList = univid => {
+  const List = allApi.get(`/Community/${univid}`);
+};
