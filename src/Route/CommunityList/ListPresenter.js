@@ -39,7 +39,7 @@ class ListPresenter extends React.Component {
     const {
       match: { params }
     } = this.props;
-
+  
     return (
       <div>
         <Header />
@@ -49,7 +49,7 @@ class ListPresenter extends React.Component {
             ? ""
             : List.map(list => (
                 <GoToDetail href={`/detail/${list.univid}/${list.id}`}>
-                  {list.id} {list.title} {list.writer}
+                  {list.id} {list.title} {list.writer} 
                 </GoToDetail>
               ))}
         </ListContainer>

@@ -16,12 +16,14 @@ export default () => {
 
   return (
     <Container>
+      <div>
       <MainLogo></MainLogo>
       <MainQuestion>당신의 <b style={{ color: "#54dea6" }}>학교이름</b>은 무엇입니까?</MainQuestion>
       <SelectUniv onChange={handleChangeUniv}>
         <OptionUniv>-</OptionUniv>
         <OptionUniv>숭실대</OptionUniv>
       </SelectUniv>
+      </div>
     </Container>
   );
 };

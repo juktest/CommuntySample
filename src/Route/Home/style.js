@@ -11,27 +11,26 @@ const moveIcon = keyframes`
 `;
 
 export const Container = styled.div`
-  position : absolute;
- 
+  background : rgba(198, 248, 198, 0.692);
   width: 100%;
-  height : 100%;
+  height : 100vh;
   
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  div{
+    display: flex;
+    flex-direction: column;
   
-  font-size : 20px;
-  background-color : rgba(198, 248, 198, 0.692);
+    align-items: center;
+  
+    font-size : 20px;
 
-  animation-duration: 1.5s;
-  animation-name: ${moveIcon};
+    animation-duration: 1.5s;
+    animation-name: ${moveIcon};
+  }
 `;
 
 export const MainQuestion = styled.span`
   margin-bottom: 50px;
   margin-top: 20px;
-
 `;
 
 export const SelectUniv = styled.select`
@@ -48,6 +47,7 @@ export const OptionUniv = styled.option``;
 
 
 export const MainLogo = styled.div`
+  margin-top : 7%;
   width: 40%;
   height: 300px;
   background-position: 50%;
