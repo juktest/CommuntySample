@@ -1,9 +1,10 @@
 import React from "react";
 import { getPostsList } from "Components/Api";
 import styled from "styled-components";
+import Header from "Components/Header";
 
 const Container = styled.div``;
-const Header = styled.div``;
+const Head = styled.div``;
 
 class CommunityDetail extends React.Component {
   state = {
@@ -36,7 +37,8 @@ class CommunityDetail extends React.Component {
   render() {
     return (
       <Container>
-        <Header>detail</Header>
+        <Header />
+        <Head>detail</Head>
       </Container>
     );
   }

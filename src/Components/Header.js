@@ -16,6 +16,7 @@ export default () => {
     <Container>
       <SLink to="/">Home</SLink>
       <SLink to="/detail/1/1">detail</SLink>
+      <SLink to="/community/1">community</SLink>
     </Container>
   );
 };
