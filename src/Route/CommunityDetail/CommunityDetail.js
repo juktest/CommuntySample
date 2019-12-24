@@ -5,6 +5,10 @@ import Header from "Components/Header";
 
 const Container = styled.div``;
 const Head = styled.div``;
+const ListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 class CommunityDetail extends React.Component {
   state = {
@@ -23,7 +27,6 @@ class CommunityDetail extends React.Component {
       const {
         data: { title, writer, body, modifiedDate }
       } = serverPostList;
-      console.log(title, writer, body, modifiedDate);
       this.setState({
         title: title,
         writer: writer,
@@ -35,10 +38,22 @@ class CommunityDetail extends React.Component {
   }
 
   render() {
+    let stateNull = true;
+    let List;
+    if (this.state.title !== "") {
+      stateNull = false;
+      List = this.state.List;
+      console.log(this.state);
+    }
+
     return (
       <Container>
         <Header />
         <Head>detail</Head>
+        <ListContainer>
+          {this.state.title} {this.state.writer} {this.state.body}{" "}
+          {this.state.modifiedDate}
+        </ListContainer>
       </Container>
     );
   }
