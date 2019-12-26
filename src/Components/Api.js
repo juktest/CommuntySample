@@ -18,3 +18,11 @@ export const getRoomList = univid => {
   const List = allApi.get(`/roomdata/${univid}`);
   return List;
 };
+
+export const postCommunityPost = (title, body) => {
+  allApi.post(`/Community/1`, {
+    writer: "testName",
+    title: title,
+    body: body
+  });
+};
