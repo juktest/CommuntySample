@@ -1,15 +1,27 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+  body {
+    margin: 0;
+    padding: 0;
+
+    font-family: "나눔고딕", "Helvetica Neue", sans-serif;
+  }
+
+  html {
+   font-size: 13px; 
+}
+
+
+@media (max-width: 800px) {
+  html {
+    font-size: 10px;
+  }
+}
+
 div.DraftEditor-root {
-  background-color: #fffef7;
-  width:80%;
-  box-shadow: 0px 0px 6px 1px rgba(0,0,0,0.5);
-  height:300px;
-  overflow-y: scroll;
-  padding:20px;
-  font-size: 18px;
-  font-family: 'calibri', sans-serif;
+    width: 100%;
+    font-family: 'calibri', sans-serif;
   }
 `;
 

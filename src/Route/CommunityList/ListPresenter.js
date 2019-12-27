@@ -5,9 +5,7 @@ import { getCommunityList } from "../../Components/Api";
 import styled from "styled-components";
 
 import { BoardList, BoardTitle, GotoDetail } from "./Style";
-import { Button } from "Components/Style";
-import { Board } from "../CommunityDetail/style";
-import { Color } from "../../Components/Style";
+import { Button, Board, Color } from "Components/Style";
 
 class ListPresenter extends React.Component {
   state = {

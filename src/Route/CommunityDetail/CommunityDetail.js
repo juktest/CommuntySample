@@ -4,15 +4,13 @@ import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
 import {
   Comment,
-  Container,
-  Board,
   FlexComponent,
   BoardInformation,
   BoardContent,
   CommentBox
 } from "./style";
-import { Button } from "Components/Style";
-import { Color, SmallButton } from "../../Components/Style";
+
+import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 
 class CommunityDetail extends React.Component {
   state = {
@@ -82,8 +80,10 @@ class CommunityDetail extends React.Component {
           <FlexComponent>
             <Button>리스트로</Button>
             <FlexComponent direction="end">
-              <Button>이전글</Button>
-              <Button color={Color.deepPink}>다음글</Button>
+              <Button style={{ top: 0 }}>이전글</Button>
+              <Button style={{ top: 0 }} color={Color.deepPink}>
+                다음글
+              </Button>
             </FlexComponent>
           </FlexComponent>
 
@@ -91,7 +91,7 @@ class CommunityDetail extends React.Component {
             <FlexComponent>
               <b>{this.state.title} </b>
               {/* {this.state.writer === localStorage.writer &} */}
-              <FlexComponent style={{ position: "relative", top: "-8px" }}>
+              <FlexComponent>
                 <Button radius="radius">수정</Button>
                 <Button radius="radius">삭제</Button>
               </FlexComponent>
@@ -117,7 +117,7 @@ class CommunityDetail extends React.Component {
               <FlexComponent>
                 <div>{this.state.writer}</div>
                 {/* {this.state.writer === localStorage.writer &} */}
-                <FlexComponent style={{ position: "relative", top: "-8px" }}>
+                <FlexComponent>
                   <SmallButton>수정</SmallButton>
                   <SmallButton>삭제</SmallButton>
                 </FlexComponent>

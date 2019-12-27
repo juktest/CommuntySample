@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const GotoDetail = styled.a`
     text-decoration : none;
 `
+
 /*게시글 title*/
 export const BoardTitle = styled.div`
      font-weight : bold;
@@ -21,7 +22,6 @@ export const BoardList = styled.div`
     grid-template-columns: 5fr 1.3fr 1fr 0.7fr;
     grid-template-rows : repeat(10,2fr);
     line-height: 2.5rem;
-     margin-top : 1rem;
      
     a, div:not(${BoardTitle}) {
         border-bottom: 1px solid pink; 

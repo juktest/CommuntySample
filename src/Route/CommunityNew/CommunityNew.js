@@ -14,31 +14,39 @@ import {
 import { postCommunityPost } from "Components/Api";
 import { queries } from "@testing-library/react";
 import qs from "qs";
-
-const Container = styled.div`
-  margin-top: 80px;
-  margin-left: 50px;
-  display: flex;
-  flex-direction: column;
-`;
+import { Container, Board } from "Components/Style";
+import { BoardInformation } from "../CommunityDetail/style";
+import { Button, Color } from "../../Components/Style";
 
 const ContainerEditer = styled.div`
-  margin-top: 20px;
+  margin-top: 30px;
 `;
 
 const TitleInput = styled.input`
   width: 70%;
 `;
 
-const SubmitButton = styled.button``;
+const styles = {
+  editor: {
+    backgroundColor: "#fffef7",
+    border: "2px dashed pink",
+    height: "300px",
+    overflowY: "scroll",
+    padding: "1.1rem",
+    fontSize: "1.1rem",
+    fontFamily: "'calibri', sans-serif",
+    margintop: "2rem",
+    marginBottom: "1rem"
+  }
+};
 
-const SubmitForm = styled.form``;
 export default class extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      TitleInputState: ""
+      TitleInputState: "",
+      textType: [false, false, false, false]
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -63,6 +71,10 @@ export default class extends React.Component {
   _onBoldClick(e) {
     e.preventDefault();
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"));
+
+    const newType = this.state.textType;
+    newType[0] = !newType[0];
+    this.setState({ textType: newType });
   }
 
   _onItalicClick(e) {
@@ -70,6 +82,9 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
     );
+    const newType = this.state.textType;
+    newType[1] = !newType[1];
+    this.setState({ textType: newType });
   }
 
   _onUnderLineClick(e) {
@@ -77,6 +92,9 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
     );
+    const newType = this.state.textType;
+    newType[2] = !newType[2];
+    this.setState({ textType: newType });
   }
 
   _onHighlightClick(e) {
@@ -84,6 +102,9 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "HIGHLIGHT")
     );
+    const newType = this.state.textType;
+    newType[3] = !newType[3];
+    this.setState({ textType: newType });
   }
 
   keyBindingFn = event => {
@@ -107,11 +128,24 @@ export default class extends React.Component {
 
   handleSubmitButton = e => {
     e.preventDefault();
+
     const title = this.state.TitleInputState;
-    const body = JSON.stringify(
-      convertToRaw(this.state.editorState.getCurrentContent())
-    );
-    postCommunityPost(title, body);
+    const content = convertToRaw(this.state.editorState.getCurrentContent());
+    const {
+      blocks: [{ text }]
+    } = content;
+
+    /*제목이나 바디부분이 비어있는지 확인 */
+    if (text && title) {
+      const body = JSON.stringify(content);
+      postCommunityPost(title, body);
+    } else if (title === "") {
+      alert("제목을 작성해주세요");
+      this.title.focus();
+    } else {
+      alert("본문을 작성해주세요");
+      this.body.focus();
+    }
   };
 
   TitleInputChange = e => {
@@ -126,37 +160,64 @@ export default class extends React.Component {
     };
 
     return (
-      <>
+      <Container>
         <Header />
-        <Container>
-          <TitleInput
-            placeholder="제목을 입력하세요"
-            value={this.state.TitleInputState}
-            onChange={this.TitleInputChange}
-          ></TitleInput>
-          <ContainerEditer onSubmit={this.handleSubmitForm}>
-            <button onMouseDown={this._onBoldClick.bind(this)}>Bold</button>
-            <button onMouseDown={this._onItalicClick.bind(this)}>Italic</button>
-            <button onMouseDown={this._onUnderLineClick.bind(this)}>
-              Under Line
-            </button>
-            <button onMouseDown={this._onHighlightClick.bind(this)}>
-              highlight
-            </button>
-            <Editor
-              editorState={this.state.editorState}
-              onChange={this.onChange}
-              handleKeyCommand={this.handleKeyCommand}
-              keyBindingFn={this.keyBindingFn}
-              placeholder="본문을 입력하세요"
-              customStyleMap={styleMap}
-            />
-            <SubmitButton type="submit" onClick={this.handleSubmitButton}>
-              Submit
-            </SubmitButton>
-          </ContainerEditer>
-        </Container>
-      </>
+        <Board mt="5rem">
+          <BoardInformation>
+            <TitleInput
+              ref={ref => (this.title = ref)}
+              placeholder="제목을 입력하세요"
+              value={this.state.TitleInputState}
+              onChange={this.TitleInputChange}
+            ></TitleInput>
+            <ContainerEditer onSubmit={this.handleSubmitForm}>
+              <Button
+                color={this.state.textType[0] && "red"}
+                onMouseDown={this._onBoldClick.bind(this)}
+              >
+                Bold
+              </Button>
+              <Button
+                color={this.state.textType[1] && "red"}
+                onMouseDown={this._onItalicClick.bind(this)}
+              >
+                Italic
+              </Button>
+              <Button
+                color={this.state.textType[2] && "red"}
+                onMouseDown={this._onUnderLineClick.bind(this)}
+              >
+                Under Line
+              </Button>
+              <Button
+                color={this.state.textType[3] && "red"}
+                onMouseDown={this._onHighlightClick.bind(this)}
+              >
+                highlight
+              </Button>
+              <div style={styles.editor}>
+                <Editor
+                  ref={ref => (this.body = ref)}
+                  editorState={this.state.editorState}
+                  onChange={this.onChange}
+                  handleKeyCommand={this.handleKeyCommand}
+                  keyBindingFn={this.keyBindingFn}
+                  placeholder="본문을 입력하세요"
+                  customStyleMap={styleMap}
+                />
+              </div>
+              <Button
+                color={Color.deepPink}
+                as="button"
+                type="submit"
+                onClick={this.handleSubmitButton}
+              >
+                Submit
+              </Button>
+            </ContainerEditer>
+          </BoardInformation>
+        </Board>
+      </Container>
     );
   }
 }
