@@ -45,8 +45,7 @@ export default class extends React.Component {
     super(props);
     this.state = {
       editorState: EditorState.createEmpty(),
-      TitleInputState: "",
-      textType: [false, false, false, false]
+      TitleInputState: ""
     };
     this.onChange = editorState => this.setState({ editorState });
     this.handleKeyCommand = this.handleKeyCommand.bind(this);
@@ -54,6 +53,7 @@ export default class extends React.Component {
 
   handleKeyCommand(command, editorState) {
     const newState = RichUtils.handleKeyCommand(editorState, command);
+
     if (newState) {
       this.onChange(newState);
       return "handled";
@@ -71,10 +71,6 @@ export default class extends React.Component {
   _onBoldClick(e) {
     e.preventDefault();
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"));
-
-    const newType = this.state.textType;
-    newType[0] = !newType[0];
-    this.setState({ textType: newType });
   }
 
   _onItalicClick(e) {
@@ -82,9 +78,6 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
     );
-    const newType = this.state.textType;
-    newType[1] = !newType[1];
-    this.setState({ textType: newType });
   }
 
   _onUnderLineClick(e) {
@@ -92,9 +85,6 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
     );
-    const newType = this.state.textType;
-    newType[2] = !newType[2];
-    this.setState({ textType: newType });
   }
 
   _onHighlightClick(e) {
@@ -102,9 +92,6 @@ export default class extends React.Component {
     this.onChange(
       RichUtils.toggleInlineStyle(this.state.editorState, "HIGHLIGHT")
     );
-    const newType = this.state.textType;
-    newType[3] = !newType[3];
-    this.setState({ textType: newType });
   }
 
   keyBindingFn = event => {
@@ -158,6 +145,7 @@ export default class extends React.Component {
         backgroundColor: "red"
       }
     };
+    const currentStyle = this.state.editorState.getCurrentInlineStyle();
 
     return (
       <Container>
@@ -172,25 +160,25 @@ export default class extends React.Component {
             ></TitleInput>
             <ContainerEditer onSubmit={this.handleSubmitForm}>
               <Button
-                color={this.state.textType[0] && "red"}
+                color={currentStyle.has("BOLD") ? "red" : "pink"}
                 onMouseDown={this._onBoldClick.bind(this)}
               >
                 Bold
               </Button>
               <Button
-                color={this.state.textType[1] && "red"}
+                color={currentStyle.has("ITALIC") ? "red" : "pink"}
                 onMouseDown={this._onItalicClick.bind(this)}
               >
                 Italic
               </Button>
               <Button
-                color={this.state.textType[2] && "red"}
+                color={currentStyle.has("UNDERLINE") ? "red" : "pink"}
                 onMouseDown={this._onUnderLineClick.bind(this)}
               >
                 Under Line
               </Button>
               <Button
-                color={this.state.textType[3] && "red"}
+                color={currentStyle.has("HIGHLIGHT") ? "red" : "pink"}
                 onMouseDown={this._onHighlightClick.bind(this)}
               >
                 highlight
