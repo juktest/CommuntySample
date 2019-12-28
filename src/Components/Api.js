@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const allApi = axios.create({
-  baseURL: "http://api.codingnome.dev"
+  baseURL: "https://api.codingnome.dev"
 });
 
 export const getPostsList = (univid, postid) => {

@@ -11,14 +11,15 @@ import {
 } from "./style";
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
 import { deleteCommunityPost } from "../../Components/Api";
 
 const CommunityDetail = ({
   match: {
     params: { univid, postid }
-  }
+  },
+  history
 }) => {
   const handleButtonGoToLists = e => {
     document.location.href = `/community/${univid}`;
@@ -30,8 +31,9 @@ const CommunityDetail = ({
     document.location.href = `/detail/${univid}/${parseInt(postid) + 1}`;
   };
 
-  const handleRemovePost = e => {
-    deleteCommunityPost(univid, postid);
+  const handleRemovePost = async e => {
+    await deleteCommunityPost(univid, postid);
+    await history.push(`/community/${univid}`);
   };
 
   let [{ title, writer, body, modifiedDate }, SetState] = useState({
