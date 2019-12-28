@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getPostsList } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
@@ -12,8 +12,10 @@ import {
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 import { withRouter } from "react-router-dom";
+import { GlobalUnivContext } from "../../Components/Context";
 
 const CommunityDetail = ({
+  history,
   match: {
     params: { univid, postid }
   }
@@ -27,7 +29,13 @@ const CommunityDetail = ({
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
   const loaddata = async () => {
-    let serverPostList = await getPostsList(univid, postid);
+    let serverPostList = await getPostsList(univid, postid, UnivContext.setError);
+
+    //접근할 수 없는 post번호에 접근했을경우
+    if (serverPostList === undefined) {
+      history.go(-1);
+    }
+
     serverPostList = serverPostList.data;
     SetState({
       title: serverPostList.title,
@@ -54,6 +62,7 @@ const CommunityDetail = ({
     loaddata();
   }, []);
 
+  const UnivContext = useContext(GlobalUnivContext);
   let stateNull = true;
   if (title !== "") {
     stateNull = false;
@@ -70,10 +79,16 @@ const CommunityDetail = ({
       <Header />
       <Board>
         <FlexComponent>
-          <Button>리스트로</Button>
+          <Button href={`/community/${univid}`}>리스트로</Button>
           <FlexComponent direction="end">
-            <Button style={{ top: 0 }}>이전글</Button>
-            <Button style={{ top: 0 }} color={Color.deepPink}>
+            <Button style={{ top: 0 }} href={`/detail/${univid}/${postid - 1}`}>
+              이전글
+            </Button>
+            <Button
+              style={{ top: 0 }}
+              color={Color.deepPink}
+              href={`/detail/${univid}/${parseInt(postid) + 1}`}
+            >
               다음글
             </Button>
           </FlexComponent>
@@ -91,8 +106,8 @@ const CommunityDetail = ({
           <hr></hr>
 
           <FlexComponent>
-            <div class="id">{writer}</div>
-            <div class="day">{modifiedDate}</div>
+            <div className="id">{writer}</div>
+            <div className="day">{modifiedDate}</div>
           </FlexComponent>
 
           <BoardContent>

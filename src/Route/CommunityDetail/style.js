@@ -96,7 +96,8 @@ export const CommentBox = styled.div`
 `;
 
 /*게시글 content*/
-export const BoardContent = styled.p`
-  padding: 4px 10px;
+export const BoardContent = styled.div`
+  margin-top: 10px;
+  padding: 5px 10px;
   font-weight: 300;
 `;

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import Header from "Components/Header";
 import { getCommunityList } from "../../Components/Api";
-import styled from "styled-components";
 
 import { BoardList, BoardTitle, GotoDetail } from "./Style";
 import { Button, Board, Color } from "Components/Style";
@@ -20,6 +19,7 @@ const ListPresenter = ({
 
   const getList = async () => {
     const postsList = await getCommunityList(univid, UnivContext.setError);
+    console.log(postsList);
     const { data } = postsList;
     setList({ List: data });
     List.List = data;
@@ -32,6 +32,7 @@ const ListPresenter = ({
   }, []);
 
   let stateNull = true;
+
   if (List.List !== "") {
     stateNull = false;
   }

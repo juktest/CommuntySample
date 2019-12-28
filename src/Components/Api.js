@@ -4,8 +4,12 @@ const allApi = axios.create({
   baseURL: "http://api.codingnome.dev"
 });
 
-export const getPostsList = (univid, postid) => {
-  const Post = allApi.get(`/Community/${univid}/${postid}`);
+export const getPostsList = (univid, postid, setError) => {
+  const Post = allApi.get(`/Community/${univid}/${postid}`).catch(function(error) {
+    setError(true);
+  });
+  setError(false);;
+  console.log("Post",Post);
   return Post;
 };
 
