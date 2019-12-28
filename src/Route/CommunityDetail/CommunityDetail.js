@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { getPostsList } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
@@ -11,143 +11,133 @@ import {
 } from "./style";
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
+import { withRouter } from "react-router-dom";
 
-class CommunityDetail extends React.Component {
-  state = {
+const CommunityDetail = ({
+  match: {
+    params: { univid, postid }
+  }
+}) => {
+  let [{ title, writer, body, modifiedDate }, SetState] = useState({
     title: "",
     writer: "",
     body: "",
     modifiedDate: ""
+  });
+  let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
+
+  const loaddata = async () => {
+    let serverPostList = await getPostsList(univid, postid);
+    serverPostList = serverPostList.data;
+    SetState({
+      title: serverPostList.title,
+      writer: serverPostList.writer,
+      body: serverPostList.body,
+      modifiedDate: serverPostList.modifiedDate
+    });
+    title = serverPostList.title;
+    writer = serverPostList.writer;
+    body = serverPostList.body;
+    modifiedDate = serverPostList.modifiedDate;
+
+    if (body !== "") {
+      const parseBody = JSON.parse(body);
+      const RawParseBody = convertFromRaw(parseBody);
+      const StateParseBody = EditorState.createWithContent(RawParseBody);
+      console.log(StateParseBody);
+      setEditorState(StateParseBody);
+      editorState = StateParseBody;
+    }
   };
 
-  constructor(props) {
-    super(props);
-    this.state = { ...this.state, editorState: EditorState.createEmpty() };
-    this.onChange = () => {};
-  }
-
-  componentDidMount() {
-    const loaddata = async () => {
-      const {
-        match: { params }
-      } = this.props;
-      const serverPostList = await getPostsList(params.univid, params.postid);
-      const {
-        data: { title, writer, body, modifiedDate }
-      } = serverPostList;
-      this.setState({
-        ...this.state,
-        title: title,
-        writer: writer,
-        body: body,
-        modifiedDate: modifiedDate
-      });
-      if (this.state.body !== "") {
-        const parseBody = JSON.parse(this.state.body);
-        const RawParseBody = convertFromRaw(parseBody);
-        const StateParseBody = EditorState.createWithContent(RawParseBody);
-        console.log(convertFromRaw(parseBody));
-        this.setState({
-          ...this.state,
-          editorState: StateParseBody
-        });
-      }
-    };
-
+  useEffect(() => {
     loaddata();
+  }, []);
+
+  let stateNull = true;
+  if (title !== "") {
+    stateNull = false;
   }
 
-  render() {
-    let stateNull = true;
-    let List;
-
-    if (this.state.title !== "") {
-      stateNull = false;
-      List = this.state.List;
-      console.log(this.state);
+  const styleMap = {
+    HIGHLIGHT: {
+      backgroundColor: "red"
     }
+  };
 
-    const styleMap = {
-      HIGHLIGHT: {
-        backgroundColor: "red"
-      }
-    };
+  return (
+    <Container>
+      <Header />
+      <Board>
+        <FlexComponent>
+          <Button>리스트로</Button>
+          <FlexComponent direction="end">
+            <Button style={{ top: 0 }}>이전글</Button>
+            <Button style={{ top: 0 }} color={Color.deepPink}>
+              다음글
+            </Button>
+          </FlexComponent>
+        </FlexComponent>
 
-    return (
-      <Container>
-        <Header />
-        <Board>
+        <BoardInformation>
           <FlexComponent>
-            <Button>리스트로</Button>
-            <FlexComponent direction="end">
-              <Button style={{ top: 0 }}>이전글</Button>
-              <Button style={{ top: 0 }} color={Color.deepPink}>
-                다음글
-              </Button>
+            <b>{title} </b>
+            {/* {this.state.writer === localStorage.writer &} */}
+            <FlexComponent>
+              <Button radius="radius">수정</Button>
+              <Button radius="radius">삭제</Button>
             </FlexComponent>
           </FlexComponent>
+          <hr></hr>
 
-          <BoardInformation>
+          <FlexComponent>
+            <div class="id">{writer}</div>
+            <div class="day">{modifiedDate}</div>
+          </FlexComponent>
+
+          <BoardContent>
+            <Editor
+              editorState={editorState}
+              onChange={setEditorState}
+              customStyleMap={styleMap}
+            />
+          </BoardContent>
+        </BoardInformation>
+
+        <Comment>
+          <CommentBox>
             <FlexComponent>
-              <b>{this.state.title} </b>
+              <div>{writer}</div>
               {/* {this.state.writer === localStorage.writer &} */}
               <FlexComponent>
-                <Button radius="radius">수정</Button>
-                <Button radius="radius">삭제</Button>
+                <SmallButton>수정</SmallButton>
+                <SmallButton>삭제</SmallButton>
               </FlexComponent>
             </FlexComponent>
-            <hr></hr>
+            <div>우앙 멋져요1!!!!</div>
+            <div>{modifiedDate}</div>
+          </CommentBox>
 
-            <FlexComponent>
-              <div class="id">{this.state.writer}</div>
-              <div class="day">{this.state.modifiedDate}</div>
-            </FlexComponent>
+          <CommentBox>
+            <div>{writer}</div>
+            <div>;;저도 안녕하세욬ㅋㅋㅋㅋ</div>
+            <div>{modifiedDate}</div>
+          </CommentBox>
+          <CommentBox>
+            <div>{writer}</div>
+            <div>허러러러러러러</div>
+            <div>{modifiedDate}</div>
+          </CommentBox>
 
-            <BoardContent>
-              <Editor
-                editorState={this.state.editorState}
-                onChange={this.onChange}
-                customStyleMap={styleMap}
-              />
-            </BoardContent>
-          </BoardInformation>
-
-          <Comment>
-            <CommentBox>
-              <FlexComponent>
-                <div>{this.state.writer}</div>
-                {/* {this.state.writer === localStorage.writer &} */}
-                <FlexComponent>
-                  <SmallButton>수정</SmallButton>
-                  <SmallButton>삭제</SmallButton>
-                </FlexComponent>
-              </FlexComponent>
-              <div>우앙 멋져요1!!!!</div>
-              <div>{this.state.modifiedDate}</div>
-            </CommentBox>
-
-            <CommentBox>
-              <div>{this.state.writer}</div>
-              <div>;;저도 안녕하세욬ㅋㅋㅋㅋ</div>
-              <div>{this.state.modifiedDate}</div>
-            </CommentBox>
-            <CommentBox>
-              <div>{this.state.writer}</div>
-              <div>허러러러러러러</div>
-              <div>{this.state.modifiedDate}</div>
-            </CommentBox>
-
-            <CommentBox style={{ flexDirection: "row" }}>
-              <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
-              <Button style={{ position: "relative", top: "-8px" }}>
-                댓글입력
-              </Button>
-            </CommentBox>
-          </Comment>
-        </Board>
-      </Container>
-    );
-  }
-}
-
-export default CommunityDetail;
+          <CommentBox style={{ flexDirection: "row" }}>
+            <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
+            <Button style={{ position: "relative", top: "-8px" }}>
+              댓글입력
+            </Button>
+          </CommentBox>
+        </Comment>
+      </Board>
+    </Container>
+  );
+};
+export default withRouter(CommunityDetail);
