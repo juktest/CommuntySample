@@ -4,9 +4,16 @@ export const GlobalUnivContext = createContext();
 
 const Context = ({ children }) => {
   const [GlobalUniv, setGlobalUniv] = useState("");
+  const [PageError, setPageError] = useState(false);
+
   return (
     <GlobalUnivContext.Provider
-      value={{ univ: GlobalUniv, setUniv: setGlobalUniv }}
+      value={{
+        univ: GlobalUniv,
+        setUniv: setGlobalUniv,
+        error: PageError,
+        setError: setPageError
+      }}
     >
       {children}
     </GlobalUnivContext.Provider>
@@ -14,3 +21,4 @@ const Context = ({ children }) => {
 };
 
 export default Context;
+
