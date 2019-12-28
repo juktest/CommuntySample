@@ -32,3 +32,7 @@ export const postCommunityPost = (title, body) => {
     body: body
   });
 };
+
+export const deleteCommunityPost = (univid, postid) => {
+  const List = allApi.delete(`/Community/${univid}/${postid}`);
+};

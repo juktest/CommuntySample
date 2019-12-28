@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { getPostsList } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
@@ -12,12 +12,28 @@ import {
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 import { withRouter } from "react-router-dom";
+import { GlobalUnivContext } from "../../Components/Context";
+import { deleteCommunityPost } from "../../Components/Api";
 
 const CommunityDetail = ({
   match: {
     params: { univid, postid }
   }
 }) => {
+  const handleButtonGoToLists = e => {
+    document.location.href = `/community/${univid}`;
+  };
+  const handleClickForwardPost = e => {
+    document.location.href = `/detail/${univid}/${postid - 1}`;
+  };
+  const handleClickNextPost = e => {
+    document.location.href = `/detail/${univid}/${parseInt(postid) + 1}`;
+  };
+
+  const handleRemovePost = e => {
+    deleteCommunityPost(univid, postid);
+  };
+
   let [{ title, writer, body, modifiedDate }, SetState] = useState({
     title: "",
     writer: "",
@@ -70,12 +86,26 @@ const CommunityDetail = ({
       <Header />
       <Board>
         <FlexComponent>
-          <Button>리스트로</Button>
+          <Button onClick={handleButtonGoToLists}>리스트로</Button>
           <FlexComponent direction="end">
-            <Button style={{ top: 0 }}>이전글</Button>
-            <Button style={{ top: 0 }} color={Color.deepPink}>
-              다음글
-            </Button>
+            {postid === "1" ? (
+              ""
+            ) : (
+              <Button style={{ top: 0 }} onClick={handleClickForwardPost}>
+                이전글
+              </Button>
+            )}
+            {localStorage.getItem("LastList") == postid ? (
+              ""
+            ) : (
+              <Button
+                style={{ top: 0 }}
+                color={Color.deepPink}
+                onClick={handleClickNextPost}
+              >
+                다음글
+              </Button>
+            )}
           </FlexComponent>
         </FlexComponent>
 
@@ -85,7 +115,9 @@ const CommunityDetail = ({
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
               <Button radius="radius">수정</Button>
-              <Button radius="radius">삭제</Button>
+              <Button radius="radius" onClick={handleRemovePost}>
+                삭제
+              </Button>
             </FlexComponent>
           </FlexComponent>
           <hr></hr>

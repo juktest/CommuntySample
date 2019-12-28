@@ -5,6 +5,7 @@ export const GlobalUnivContext = createContext();
 const Context = ({ children }) => {
   const [GlobalUniv, setGlobalUniv] = useState("");
   const [PageError, setPageError] = useState(false);
+  const [LastList, setLastList] = useState("");
 
   return (
     <GlobalUnivContext.Provider
@@ -21,4 +22,3 @@ const Context = ({ children }) => {
 };
 
 export default Context;
-

@@ -18,14 +18,15 @@ const ListPresenter = ({
     List: ""
   });
 
+  const UnivContext = useContext(GlobalUnivContext);
+
   const getList = async () => {
     const postsList = await getCommunityList(univid, UnivContext.setError);
     const { data } = postsList;
+    localStorage.setItem("LastList", data.length);
     setList({ List: data });
     List.List = data;
   };
-
-  const UnivContext = useContext(GlobalUnivContext);
 
   useEffect(() => {
     getList();
