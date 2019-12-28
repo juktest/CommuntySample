@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const allApi = axios.create({
-  baseURL: "https://api.codingnome.dev"
+  baseURL: "http://api.codingnome.dev"
 });
 
 export const getPostsList = (univid, postid) => {
@@ -9,13 +9,19 @@ export const getPostsList = (univid, postid) => {
   return Post;
 };
 
-export const getCommunityList = univid => {
-  const List = allApi.get(`/Community/${univid}`);
+export const getCommunityList = (univid, setError) => {
+  const List = allApi.get(`/Community/${univid}`).catch(function(error) {
+    setError(true);
+  });
+  setError(false);
   return List;
 };
 
-export const getRoomList = univid => {
-  const List = allApi.get(`/roomdata/${univid}`);
+export const getRoomList = (univid, setError) => {
+  const List = allApi.get(`/roomdata/${univid}`).catch(function(error) {
+    setError(true);
+  });
+  setError(false);
   return List;
 };
 
