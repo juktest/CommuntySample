@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import Header from "Components/Header";
 import { getCommunityList } from "../../Components/Api";
@@ -6,69 +6,79 @@ import styled from "styled-components";
 
 import { BoardList, BoardTitle, GotoDetail } from "./Style";
 import { Button, Board, Color } from "Components/Style";
+import { GlobalUnivContext } from "../../Components/Context";
+import Message from "../../Components/Message";
 
-class ListPresenter extends React.Component {
-  state = {
+const ListPresenter = ({
+  match: {
+    params: { univid }
+  }
+}) => {
+  const [List, setList] = useState({
     List: ""
+  });
+
+  const getList = async () => {
+    const postsList = await getCommunityList(univid, UnivContext.setError);
+    const { data } = postsList;
+    setList({ List: data });
+    List.List = data;
   };
 
-  componentDidMount() {
-    const getList = async () => {
-      const {
-        match: { params }
-      } = this.props;
-      const postsList = await getCommunityList(params);
-      const { data } = postsList;
-      this.setState({
-        List: data
-      });
-    };
+  const UnivContext = useContext(GlobalUnivContext);
+
+  useEffect(() => {
     getList();
+  }, []);
+
+  let stateNull = true;
+  if (List.List !== "") {
+    stateNull = false;
   }
 
-  render() {
-    let stateNull = true;
-    let List;
-    if (this.state.List !== "") {
-      stateNull = false;
-      List = this.state.List;
-    }
+  return (
+    <div>
+      <Header />
+      {UnivContext.error ? (
+        <Message
+          error={true}
+          message={`커뮤니티 페이지 불러오기 실패`}
+          univid={univid}
+        />
+      ) : (
+        <Message
+          error={false}
+          message={`커뮤니티 페이지 불러오기 성공`}
+          univid={univid}
+        />
+      )}
+      <Board>
+        <Button color={Color.mint} href={`/community/${univid}/new`}>
+          글쓰기
+        </Button>
 
-    const {
-      match: { params }
-    } = this.props;
+        <BoardList>
+          <BoardTitle>제목</BoardTitle>
+          <BoardTitle>작성자</BoardTitle>
+          <BoardTitle>작성일</BoardTitle>
+          <BoardTitle>조회수</BoardTitle>
 
-    return (
-      <div>
-        <Header />
-        <Board>
-          <Button color={Color.mint} href={`/community/${params.univid}/new`}>
-            글쓰기
-          </Button>
+          {stateNull
+            ? ""
+            : List.List.map((list, index) => (
+                <>
+                  <GotoDetail href={`/detail/${list.univid}/${list.id}`}>
+                    {list.title}
+                  </GotoDetail>
+                  <div>{list.writer}</div>
+                  <div>{list.modifiedDate.slice(0, 10)}</div>
+                  <div>{list.views}</div>
+                </>
+              ))}
+        </BoardList>
+      </Board>
+    </div>
+  );
+};
 
-          <BoardList>
-            <BoardTitle>제목</BoardTitle>
-            <BoardTitle>작성자</BoardTitle>
-            <BoardTitle>작성일</BoardTitle>
-            <BoardTitle>조회수</BoardTitle>
-
-            {stateNull
-              ? ""
-              : List.map((list, index) => (
-                  <>
-                    <GotoDetail href={`/detail/${list.univid}/${list.id}`}>
-                      {list.title}
-                    </GotoDetail>
-                    <div>{list.writer}</div>
-                    <div>{list.modifiedDate.slice(0, 10)}</div>
-                    <div>{list.views}</div>
-                  </>
-                ))}
-          </BoardList>
-        </Board>
-      </div>
-    );
-  }
-}
-
-export default ListPresenter;
+export default withRouter(ListPresenter);
