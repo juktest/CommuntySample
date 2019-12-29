@@ -43,13 +43,14 @@ const CommunityDetail = ({
     await history.push(`/community/${univid}`);
   };
 
-  let [{ title, writer, body, modifiedDate, comments }, SetState] = useState({
+  let [Post, SetState] = useState({
     title: "",
     writer: "",
     body: "",
     modifiedDate: "",
     comments: []
   });
+
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
   const handlePostComment = e => {
@@ -68,10 +69,6 @@ const CommunityDetail = ({
 
     let serverCommentList = await getCommunityComments(univid, postid);
 
-    console.log("댓글");
-    console.log(serverCommentList.data);
-    SetState({ comments: serverCommentList.data });
-
     //접근할 수 없는 post번호에 접근했을경우
     if (serverPostList === undefined) {
       history.go(-1);
@@ -84,19 +81,20 @@ const CommunityDetail = ({
       body: serverPostList.body,
       modifiedDate: serverPostList.modifiedDate
     });
-    title = serverPostList.title;
-    writer = serverPostList.writer;
-    body = serverPostList.body;
-    modifiedDate = serverPostList.modifiedDate;
+    Post.title = serverPostList.title;
+    Post.writer = serverPostList.writer;
+    Post.body = serverPostList.body;
+    Post.modifiedDate = serverPostList.modifiedDate;
 
-    if (body !== "") {
-      const parseBody = JSON.parse(body);
+    if (Post.body !== "") {
+      const parseBody = JSON.parse(Post.body);
       const RawParseBody = convertFromRaw(parseBody);
       const StateParseBody = EditorState.createWithContent(RawParseBody);
-      console.log(StateParseBody);
       setEditorState(StateParseBody);
       editorState = StateParseBody;
     }
+
+    SetState({ ...Post, comments: serverCommentList.data });
   };
 
   const deletedata = async () => {
@@ -109,7 +107,7 @@ const CommunityDetail = ({
   }, []);
 
   let stateNull = true;
-  if (title !== "") {
+  if (Post.title !== "") {
     stateNull = false;
   }
 
@@ -149,7 +147,7 @@ const CommunityDetail = ({
 
         <BoardInformation>
           <FlexComponent>
-            <b>{title} </b>
+            <b>{Post.title} </b>
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
               <Button radius="radius">수정</Button>
@@ -161,8 +159,8 @@ const CommunityDetail = ({
           <hr></hr>
 
           <FlexComponent>
-            <div className="id">{writer}</div>
-            <div className="day">{modifiedDate}</div>
+            <div className="id">{Post.writer}</div>
+            <div className="day">{Post.modifiedDate}</div>
           </FlexComponent>
 
           <BoardContent>
@@ -175,24 +173,25 @@ const CommunityDetail = ({
         </BoardInformation>
 
         <Comment>
-          {comments
-            ? comments.map(({ id, writer, body, modifiedDate }) => {
-                console.log(id, writer, body, modifiedDate);
-              })
-            : ""}
+          {console.log(Post.comments)}
+          {Post.comments ? (
+            Post.comments.map(({ id, writer, body, modifiedDate }) => (
+              <CommentBox>
+                <FlexComponent>
+                  <div>{writer}</div>
+                  <FlexComponent>
+                    <SmallButton>수정</SmallButton>
+                    <SmallButton>삭제</SmallButton>
+                  </FlexComponent>
+                </FlexComponent>
+                <div>{body}</div>
+                <div>{modifiedDate}</div>
+              </CommentBox>
+            ))
+          ) : (
+            <CommentBox>Error</CommentBox>
+          )}
 
-          <CommentBox>
-            <FlexComponent>
-              <div>{writer}</div>
-              {/* {this.state.writer === localStorage.writer &} */}
-              <FlexComponent>
-                <SmallButton>수정</SmallButton>
-                <SmallButton>삭제</SmallButton>
-              </FlexComponent>
-            </FlexComponent>
-            <div>{body}</div>
-            <div>{modifiedDate}</div>
-          </CommentBox>
           <CommentBox style={{ flexDirection: "row" }}>
             <PostCommentForm onSubmit={handlePostComment}>
               <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
