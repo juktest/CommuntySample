@@ -22,8 +22,8 @@ export const getCommunityList = async (univid, setError) => {
   return List;
 };
 
-export const getRoomList = (univid, setError) => {
-  const List = allApi.get(`/roomdata/${univid}`).catch(function(error) {
+export const getRoomList = async (univid, setError) => {
+  const List = await allApi.get(`/roomdata/${univid}`).catch(function(error) {
     setError(true);
   });
   setError(false);
@@ -31,13 +31,17 @@ export const getRoomList = (univid, setError) => {
 };
 
 export const postCommunityPost = async (title, body) => {
-  await allApi.post(`/Community/1`, {
-    writer: "testName",
-    title: title,
-    body: body
-  });
+  await allApi
+    .post(`/Community/1`, {
+      writer: "testName",
+      title: title,
+      body: body
+    })
+    .catch(function() {
+      console.log("실패");
+    });
 };
 
 export const deleteCommunityPost = async (univid, postid) => {
-  const List = await allApi.delete(`/Community/${univid}/${postid}`);
+  await allApi.delete(`/Community/${univid}/${postid}`);
 };

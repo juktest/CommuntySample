@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { getPostsList } from "Components/Api";
+import { getPostsList, deleteCommunityPost } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
 import {
@@ -81,6 +81,11 @@ const CommunityDetail = ({
     }
   };
 
+  const deletedata = async () => {
+    await deleteCommunityPost(univid, postid);
+    document.location.href = `/community/${univid}`;
+  };
+
   useEffect(() => {
     loaddata();
   }, []);
@@ -130,7 +135,7 @@ const CommunityDetail = ({
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
               <Button radius="radius">수정</Button>
-              <Button radius="radius" onClick={handleRemovePost}>
+              <Button radius="radius" onClick={deletedata}>
                 삭제
               </Button>
             </FlexComponent>
