@@ -11,7 +11,7 @@ const Logo = styled(Link)`
   background-image: url(${logo});
   background-size: contain;
 
-  margin-top : 0.4rem;
+  margin-top: 0.4rem;
 
   ${({ src }) =>
     src &&
@@ -23,13 +23,13 @@ const Logo = styled(Link)`
 `;
 
 const NavItem = styled(Link)`
-  font-size : 1.2rem;
+  font-size: 1.2rem;
   text-decoration: none;
   min-width: fit-content;
   color: ${Color.mint};
 
   padding: 1.2rem;
-  
+
   ${({ color }) =>
     css`
       color: ${color};
@@ -59,40 +59,37 @@ const RightNav = styled.div`
   margin-left: 0.8rem;
 `;
 
-const NavigationBar= styled.nav`
+const NavigationBar = styled.nav`
   z-index: 99;
   width: 100%;
-  
+
   display: flex;
-  
+
   line-height: 1.8rem;
   border-bottom: 0.25px solid rgba(0, 0, 0, 0.5);
-  
+
   background-color: white;
   font-weight: bold;
 
   ${NavItem}:hover {
     color: #185fb7;
     border-bottom: 1px solid #00f500;
-  } 
+  }
 `;
-
-
 
 export default () => {
   const Univ = localStorage.getItem("Univ");
-  
+
   return (
     <NavigationBar>
       <LeftNav>
-        <Logo to="/"/>
+        <Logo to="/" />
       </LeftNav>
       <RightNav>
         <NavItem to={`/room/${Univ}`}>방 리스트</NavItem>
         <NavItem to={`/community/${Univ}`}>커뮤니티</NavItem>
         <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
       </RightNav>
-      
     </NavigationBar>
   );
 };

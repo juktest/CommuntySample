@@ -11,28 +11,27 @@ import Message from "../../Components/Message";
 const ListPresenter = ({
   match: {
     params: { univid }
-  }
+  },
+  history
 }) => {
   const [List, setList] = useState({
     List: ""
   });
 
+  const UnivContext = useContext(GlobalUnivContext);
+
   const getList = async () => {
     const postsList = await getCommunityList(univid, UnivContext.setError);
-    console.log(postsList);
     const { data } = postsList;
     setList({ List: data });
     List.List = data;
   };
-
-  const UnivContext = useContext(GlobalUnivContext);
 
   useEffect(() => {
     getList();
   }, []);
 
   let stateNull = true;
-
   if (List.List !== "") {
     stateNull = false;
   }

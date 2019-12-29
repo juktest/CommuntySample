@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { getPostsList,deleteCommunityPost  } from "Components/Api";
+import { getPostsList, deleteCommunityPost } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
 import {
@@ -11,16 +11,34 @@ import {
 } from "./style";
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
-
+import { deleteCommunityPost } from "../../Components/Api";
 
 const CommunityDetail = ({
   history,
   match: {
     params: { univid, postid }
-  }
+  },
+  location
 }) => {
+  const UnivContext = useContext(GlobalUnivContext);
+
+  const handleButtonGoToLists = e => {
+    document.location.href = `/community/${univid}`;
+  };
+  const handleClickForwardPost = e => {
+    document.location.href = `/detail/${univid}/${postid - 1}`;
+  };
+  const handleClickNextPost = e => {
+    document.location.href = `/detail/${univid}/${parseInt(postid) + 1}`;
+  };
+
+  const handleRemovePost = async e => {
+    await deleteCommunityPost(univid, postid);
+    await history.push(`/community/${univid}`);
+  };
+
   let [{ title, writer, body, modifiedDate }, SetState] = useState({
     title: "",
     writer: "",
@@ -30,7 +48,11 @@ const CommunityDetail = ({
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
   const loaddata = async () => {
-    let serverPostList = await getPostsList(univid, postid, UnivContext.setError);
+    let serverPostList = await getPostsList(
+      univid,
+      postid,
+      UnivContext.setError
+    );
 
     //접근할 수 없는 post번호에 접근했을경우
     if (serverPostList === undefined) {
@@ -59,17 +81,15 @@ const CommunityDetail = ({
     }
   };
 
-
-  const deletedata = async() => {
-    await deleteCommunityPost(univid, postid);  
+  const deletedata = async () => {
+    await deleteCommunityPost(univid, postid);
     document.location.href = `/community/${univid}`;
-  }
+  };
 
   useEffect(() => {
     loaddata();
   }, []);
 
-  const UnivContext = useContext(GlobalUnivContext);
   let stateNull = true;
   if (title !== "") {
     stateNull = false;
@@ -86,18 +106,26 @@ const CommunityDetail = ({
       <Header />
       <Board>
         <FlexComponent>
-          <Button href={`/community/${univid}`}>리스트로</Button>
+          <Button onClick={handleButtonGoToLists}>리스트로</Button>
           <FlexComponent direction="end">
-            <Button style={{ top: 0 }} href={`/detail/${univid}/${postid - 1}`}>
-              이전글
-            </Button>
-            <Button
-              style={{ top: 0 }}
-              color={Color.deepPink}
-              href={`/detail/${univid}/${parseInt(postid) + 1}`}
-            >
-              다음글
-            </Button>
+            {postid === "1" ? (
+              ""
+            ) : (
+              <Button style={{ top: 0 }} onClick={handleClickForwardPost}>
+                이전글
+              </Button>
+            )}
+            {localStorage.getItem("LastList") == postid ? (
+              ""
+            ) : (
+              <Button
+                style={{ top: 0 }}
+                color={Color.deepPink}
+                onClick={handleClickNextPost}
+              >
+                다음글
+              </Button>
+            )}
           </FlexComponent>
         </FlexComponent>
 
@@ -107,7 +135,9 @@ const CommunityDetail = ({
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
               <Button radius="radius">수정</Button>
-              <Button radius="radius" onClick = {deletedata} >삭제</Button>
+              <Button radius="radius" onClick={deletedata}>
+                삭제
+              </Button>
             </FlexComponent>
           </FlexComponent>
           <hr></hr>

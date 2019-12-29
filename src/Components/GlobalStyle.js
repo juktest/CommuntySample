@@ -23,6 +23,9 @@ div.DraftEditor-root {
     width: 100%;
     font-family: 'calibri', sans-serif;
   }
+
+div.DraftEditor-editorContainer {
+}
 `;
 
 export default GlobalStyles;

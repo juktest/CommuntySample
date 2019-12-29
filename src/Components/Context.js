@@ -5,6 +5,8 @@ export const GlobalUnivContext = createContext();
 const Context = ({ children }) => {
   const [GlobalUniv, setGlobalUniv] = useState("");
   const [PageError, setPageError] = useState(false);
+  const [LastList, setLastList] = useState("");
+  const [Message, setMessage] = useState(false);
 
   return (
     <GlobalUnivContext.Provider
@@ -12,7 +14,9 @@ const Context = ({ children }) => {
         univ: GlobalUniv,
         setUniv: setGlobalUniv,
         error: PageError,
-        setError: setPageError
+        setError: setPageError,
+        Message: Message,
+        setMessage: setMessage
       }}
     >
       {children}
@@ -21,4 +25,3 @@ const Context = ({ children }) => {
 };
 
 export default Context;
-
