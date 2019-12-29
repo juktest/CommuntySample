@@ -13,7 +13,6 @@ import {
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 import { withRouter, Redirect } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
-import { deleteCommunityPost } from "../../Components/Api";
 
 const CommunityDetail = ({
   history,
