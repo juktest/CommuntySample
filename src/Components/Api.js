@@ -33,7 +33,7 @@ export const getRoomList = async (univid, setError) => {
 export const postCommunityPost = async (title, body) => {
   await allApi
     .post(`/Community/1`, {
-      writer: "testName",
+      writer: localStorage.getItem("userId"),
       title: title,
       body: body
     })
