@@ -48,15 +48,20 @@ const ListPresenter = ({
       ) : (
         <Message
           error={false}
-          message={`숭실대학교 커뮤니티 홈페이지 입니다`}
+          message={`숭실대학교 커뮤니티 홈페이지 입니다.`}
           univid={univid}
         />
       )}
       <Board>
         {localStorage.getItem("LoggedIn") == "true" ? (
-          <Link color={Color.mint} to={`/community/${univid}/new`}>
-            글쓰기
-          </Link>
+          <>
+            <Button color={Color.mint} to={`/community/${univid}/new`}>
+              글쓰기
+            </Button>
+            <Link color={Color.mint} to={`/community/${univid}/new`}>
+              글쓰기
+            </Link>
+          </>
         ) : (
           ""
         )}
