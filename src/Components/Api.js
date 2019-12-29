@@ -11,7 +11,6 @@ export const getPostsList = (univid, postid, setError) => {
       setError(true);
     });
   setError(false);
-  console.log("Post", Post);
   return Post;
 };
 
@@ -20,7 +19,6 @@ export const getCommunityList = async (univid, setError) => {
     setError(true);
   });
   setError(false);
-  console.log(List);
   return List;
 };
 

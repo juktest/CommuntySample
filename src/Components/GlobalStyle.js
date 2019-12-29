@@ -25,7 +25,6 @@ div.DraftEditor-root {
   }
 
 div.DraftEditor-editorContainer {
-  height:700px;
 }
 `;
 

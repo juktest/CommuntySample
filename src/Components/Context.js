@@ -6,7 +6,7 @@ const Context = ({ children }) => {
   const [GlobalUniv, setGlobalUniv] = useState("");
   const [PageError, setPageError] = useState(false);
   const [LastList, setLastList] = useState("");
-  const [ChangePage, setChangePage] = useState(false);
+  const [Message, setMessage] = useState(false);
 
   return (
     <GlobalUnivContext.Provider
@@ -14,7 +14,9 @@ const Context = ({ children }) => {
         univ: GlobalUniv,
         setUniv: setGlobalUniv,
         error: PageError,
-        setError: setPageError
+        setError: setPageError,
+        Message: Message,
+        setMessage: setMessage
       }}
     >
       {children}
