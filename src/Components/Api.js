@@ -5,28 +5,28 @@ const allApi = axios.create({
 });
 
 export const getPostsList = (univid, postid, setError) => {
+  setError(false);
   const Post = allApi
     .get(`/Community/${univid}/${postid}`)
     .catch(function(error) {
       setError(true);
     });
-  setError(false);
   return Post;
 };
 
 export const getCommunityList = async (univid, setError) => {
+  setError(false);
   const List = await allApi.get(`/Community/${univid}`).catch(function(error) {
     setError(true);
   });
-  setError(false);
   return List;
 };
 
 export const getRoomList = async (univid, setError) => {
+  setError(false);
   const List = await allApi.get(`/roomdata/${univid}`).catch(function(error) {
     setError(true);
   });
-  setError(false);
   return List;
 };
 
