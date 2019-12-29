@@ -30,7 +30,7 @@ const RoomList = ({
         />
       ) : (
         <Message
-          error={true}
+          error={false}
           message={`페이지 불러오기 성공`}
           univid={univid}
         />

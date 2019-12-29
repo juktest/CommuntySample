@@ -16,11 +16,14 @@ import { GlobalUnivContext } from "../../Components/Context";
 import { deleteCommunityPost } from "../../Components/Api";
 
 const CommunityDetail = ({
+  history,
   match: {
     params: { univid, postid }
   },
-  history
+  location
 }) => {
+  const UnivContext = useContext(GlobalUnivContext);
+
   const handleButtonGoToLists = e => {
     document.location.href = `/community/${univid}`;
   };
@@ -45,7 +48,17 @@ const CommunityDetail = ({
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
   const loaddata = async () => {
-    let serverPostList = await getPostsList(univid, postid);
+    let serverPostList = await getPostsList(
+      univid,
+      postid,
+      UnivContext.setError
+    );
+
+    //접근할 수 없는 post번호에 접근했을경우
+    if (serverPostList === undefined) {
+      history.go(-1);
+    }
+
     serverPostList = serverPostList.data;
     SetState({
       title: serverPostList.title,
@@ -125,8 +138,8 @@ const CommunityDetail = ({
           <hr></hr>
 
           <FlexComponent>
-            <div class="id">{writer}</div>
-            <div class="day">{modifiedDate}</div>
+            <div className="id">{writer}</div>
+            <div className="day">{modifiedDate}</div>
           </FlexComponent>
 
           <BoardContent>

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { withRouter } from "react-router-dom";
 import Header from "Components/Header";
 import { getCommunityList } from "../../Components/Api";
-import styled from "styled-components";
 
 import { BoardList, BoardTitle, GotoDetail } from "./Style";
 import { Button, Board, Color } from "Components/Style";
@@ -12,7 +11,8 @@ import Message from "../../Components/Message";
 const ListPresenter = ({
   match: {
     params: { univid }
-  }
+  },
+  history
 }) => {
   const [List, setList] = useState({
     List: ""
@@ -23,7 +23,6 @@ const ListPresenter = ({
   const getList = async () => {
     const postsList = await getCommunityList(univid, UnivContext.setError);
     const { data } = postsList;
-    localStorage.setItem("LastList", data.length);
     setList({ List: data });
     List.List = data;
   };

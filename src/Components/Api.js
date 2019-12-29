@@ -4,16 +4,23 @@ const allApi = axios.create({
   baseURL: "https://api.codingnome.dev"
 });
 
-export const getPostsList = (univid, postid) => {
-  const Post = allApi.get(`/Community/${univid}/${postid}`);
+export const getPostsList = (univid, postid, setError) => {
+  const Post = allApi
+    .get(`/Community/${univid}/${postid}`)
+    .catch(function(error) {
+      setError(true);
+    });
+  setError(false);
+  console.log("Post", Post);
   return Post;
 };
 
-export const getCommunityList = (univid, setError) => {
-  const List = allApi.get(`/Community/${univid}`).catch(function(error) {
+export const getCommunityList = async (univid, setError) => {
+  const List = await allApi.get(`/Community/${univid}`).catch(function(error) {
     setError(true);
   });
   setError(false);
+  console.log(List);
   return List;
 };
 
@@ -25,14 +32,14 @@ export const getRoomList = (univid, setError) => {
   return List;
 };
 
-export const postCommunityPost = (title, body) => {
-  allApi.post(`/Community/1`, {
+export const postCommunityPost = async (title, body) => {
+  await allApi.post(`/Community/1`, {
     writer: "testName",
     title: title,
     body: body
   });
 };
 
-export const deleteCommunityPost = (univid, postid) => {
-  const List = allApi.delete(`/Community/${univid}/${postid}`);
+export const deleteCommunityPost = async (univid, postid) => {
+  const List = await allApi.delete(`/Community/${univid}/${postid}`);
 };
