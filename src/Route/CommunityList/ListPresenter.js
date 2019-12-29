@@ -53,9 +53,13 @@ const ListPresenter = ({
         />
       )}
       <Board>
-        <Button color={Color.mint} href={`/community/${univid}/new`}>
-          글쓰기
-        </Button>
+        {localStorage.getItem("LoggedIn") == "true" ? (
+          <Button color={Color.mint} href={`/community/${univid}/new`}>
+            글쓰기
+          </Button>
+        ) : (
+          ""
+        )}
 
         <BoardList>
           <BoardTitle>제목</BoardTitle>
