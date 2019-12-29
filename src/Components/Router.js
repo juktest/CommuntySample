@@ -13,6 +13,7 @@ import RoomList from "Route/RoomList";
 import Context, { GlobalUnivContext } from "./Context";
 import Seller from "../Route/Seller";
 import CommunityNew from "../Route/CommunityNew";
+import Login from "../Route/Login";
 
 export default () => {
   return (
@@ -29,6 +30,7 @@ export default () => {
           <Route path="/community/:univid/new" exact component={CommunityNew} />
           <Route path="/room/:univid" exact component={RoomList} />
           <Route path="/seller" exact component={Seller} />
+          <Route path="/login" exact component={Login} />
         </Context>
       </Switch>
     </Router>

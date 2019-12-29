@@ -53,9 +53,14 @@ const CommunityDetail = ({
 
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
-  const handlePostComment = e => {
+  const handlePostComment = async e => {
     e.preventDefault();
-    postCommunityComments(e.target.elements[0].value, univid, postid);
+    await postCommunityComments(e.target.elements[0].value, univid, postid);
+    await window.location.reload();
+  };
+
+  const handleClickCommentRemove = e => {
+    console.dir(e.target.id);
   };
 
   const PostCommentForm = styled.form``;
@@ -150,10 +155,17 @@ const CommunityDetail = ({
             <b>{Post.title} </b>
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
-              <Button radius="radius">수정</Button>
-              <Button radius="radius" onClick={deletedata}>
-                삭제
-              </Button>
+              {localStorage.getItem("LoggedIn") == "true" &&
+              Post.writer == localStorage.getItem("userId") ? (
+                <>
+                  <Button radius="radius">수정</Button>
+                  <Button radius="radius" onClick={deletedata}>
+                    삭제
+                  </Button>
+                </>
+              ) : (
+                ""
+              )}
             </FlexComponent>
           </FlexComponent>
           <hr></hr>
@@ -181,7 +193,9 @@ const CommunityDetail = ({
                   <div>{writer}</div>
                   <FlexComponent>
                     <SmallButton>수정</SmallButton>
-                    <SmallButton>삭제</SmallButton>
+                    <SmallButton onClick={handleClickCommentRemove} id={id}>
+                      삭제
+                    </SmallButton>
                   </FlexComponent>
                 </FlexComponent>
                 <div>{body}</div>
