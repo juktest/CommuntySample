@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import Header from "Components/Header";
 import { getCommunityList } from "../../Components/Api";
 
@@ -48,15 +48,20 @@ const ListPresenter = ({
       ) : (
         <Message
           error={false}
-          message={`커뮤니티 페이지 불러오기 성공`}
+          message={`숭실대학교 커뮤니티 홈페이지 입니다.`}
           univid={univid}
         />
       )}
       <Board>
         {localStorage.getItem("LoggedIn") == "true" ? (
-          <Button color={Color.mint} href={`/community/${univid}/new`}>
-            글쓰기
-          </Button>
+          <>
+            <Button color={Color.mint} to={`/community/${univid}/new`}>
+              글쓰기
+            </Button>
+            <Link color={Color.mint} to={`/community/${univid}/new`}>
+              글쓰기
+            </Link>
+          </>
         ) : (
           ""
         )}
