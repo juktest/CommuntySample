@@ -45,3 +45,15 @@ export const postCommunityPost = async (title, body) => {
 export const deleteCommunityPost = async (univid, postid) => {
   await allApi.delete(`/Community/${univid}/${postid}`);
 };
+
+export const getCommunityComments = async (univid, postid) => {
+  const List = await allApi.get(`/Community/${univid}/${postid}/Comments`);
+  return List;
+};
+
+export const postCommunityComments = async (body, univid, postid) => {
+  await allApi.post(`/Community/${univid}/${postid}/Comments`, {
+    writer: "testName",
+    body: body
+  });
+};

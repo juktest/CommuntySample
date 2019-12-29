@@ -13,6 +13,11 @@ import {
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 import { withRouter, Redirect } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
+import {
+  getCommunityComments,
+  postCommunityComments
+} from "../../Components/Api";
+import styled from "styled-components";
 
 const CommunityDetail = ({
   history,
@@ -38,13 +43,21 @@ const CommunityDetail = ({
     await history.push(`/community/${univid}`);
   };
 
-  let [{ title, writer, body, modifiedDate }, SetState] = useState({
+  let [{ title, writer, body, modifiedDate, comments }, SetState] = useState({
     title: "",
     writer: "",
     body: "",
-    modifiedDate: ""
+    modifiedDate: "",
+    comments: []
   });
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
+
+  const handlePostComment = e => {
+    e.preventDefault();
+    postCommunityComments(e.target.elements[0].value, univid, postid);
+  };
+
+  const PostCommentForm = styled.form``;
 
   const loaddata = async () => {
     let serverPostList = await getPostsList(
@@ -52,6 +65,12 @@ const CommunityDetail = ({
       postid,
       UnivContext.setError
     );
+
+    let serverCommentList = await getCommunityComments(univid, postid);
+
+    console.log("댓글");
+    console.log(serverCommentList.data);
+    SetState({ comments: serverCommentList.data });
 
     //접근할 수 없는 post번호에 접근했을경우
     if (serverPostList === undefined) {
@@ -156,6 +175,12 @@ const CommunityDetail = ({
         </BoardInformation>
 
         <Comment>
+          {comments
+            ? comments.map(({ id, writer, body, modifiedDate }) => {
+                console.log(id, writer, body, modifiedDate);
+              })
+            : ""}
+
           <CommentBox>
             <FlexComponent>
               <div>{writer}</div>
@@ -165,26 +190,19 @@ const CommunityDetail = ({
                 <SmallButton>삭제</SmallButton>
               </FlexComponent>
             </FlexComponent>
-            <div>우앙 멋져요1!!!!</div>
+            <div>{body}</div>
             <div>{modifiedDate}</div>
           </CommentBox>
-
-          <CommentBox>
-            <div>{writer}</div>
-            <div>;;저도 안녕하세욬ㅋㅋㅋㅋ</div>
-            <div>{modifiedDate}</div>
-          </CommentBox>
-          <CommentBox>
-            <div>{writer}</div>
-            <div>허러러러러러러</div>
-            <div>{modifiedDate}</div>
-          </CommentBox>
-
           <CommentBox style={{ flexDirection: "row" }}>
-            <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
-            <Button style={{ position: "relative", top: "-8px" }}>
-              댓글입력
-            </Button>
+            <PostCommentForm onSubmit={handlePostComment}>
+              <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
+              <Button
+                style={{ position: "relative", top: "-8px" }}
+                type="submit"
+              >
+                댓글입력
+              </Button>
+            </PostCommentForm>
           </CommentBox>
         </Comment>
       </Board>
