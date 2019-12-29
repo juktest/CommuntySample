@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { getPostsList } from "Components/Api";
+import { getPostsList,deleteCommunityPost  } from "Components/Api";
 import { convertFromRaw, EditorState, Editor } from "draft-js";
 import Header from "Components/Header";
 import {
@@ -13,6 +13,7 @@ import {
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
 import { withRouter } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
+
 
 const CommunityDetail = ({
   history,
@@ -58,6 +59,12 @@ const CommunityDetail = ({
     }
   };
 
+
+  const deletedata = async() => {
+    await deleteCommunityPost(univid, postid);  
+    document.location.href = `/community/${univid}`;
+  }
+
   useEffect(() => {
     loaddata();
   }, []);
@@ -100,7 +107,7 @@ const CommunityDetail = ({
             {/* {this.state.writer === localStorage.writer &} */}
             <FlexComponent>
               <Button radius="radius">수정</Button>
-              <Button radius="radius">삭제</Button>
+              <Button radius="radius" onClick = {deletedata} >삭제</Button>
             </FlexComponent>
           </FlexComponent>
           <hr></hr>

@@ -113,7 +113,7 @@ export default class extends React.Component {
     console.log("form");
   };
 
-  handleSubmitButton = e => {
+  handleSubmitButton = async (e) => {
     e.preventDefault();
 
     const title = this.state.TitleInputState;
@@ -121,11 +121,12 @@ export default class extends React.Component {
     const {
       blocks: [{ text }]
     } = content;
-
+   
     /*제목이나 바디부분이 비어있는지 확인 */
     if (text && title) {
       const body = JSON.stringify(content);
-      postCommunityPost(title, body);
+      await postCommunityPost(title, body);
+      document.location.href = "/community/1";
     } else if (title === "") {
       alert("제목을 작성해주세요");
       this.title.focus();
