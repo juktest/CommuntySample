@@ -4,7 +4,7 @@ import styled, { css } from "styled-components";
 import logo from "img/titleIcon.png";
 import { Color } from "./Style";
 
-const Logo = styled(Link)`
+export const Logo = styled(Link)`
   width: 10rem;
   height: 4rem;
 
@@ -22,7 +22,7 @@ const Logo = styled(Link)`
   background-repeat: no-repeat;
 `;
 
-const NavItem = styled(Link)`
+export const NavItem = styled(Link)`
   font-size: 1.2rem;
   text-decoration: none;
   min-width: fit-content;
@@ -44,14 +44,14 @@ const NavItem = styled(Link)`
   }
 `;
 
-const LeftNav = styled.div`
+export const LeftNav = styled.div`
   padding-left: 1rem;
   display: flex;
   justify-content: flex-start;
   width: 50%;
 `;
 
-const RightNav = styled.div`
+export const RightNav = styled.div`
   padding-right: 0.8rem;
   display: flex;
   justify-content: flex-end;
@@ -60,10 +60,11 @@ const RightNav = styled.div`
 `;
 
 const NavigationBar = styled.nav`
-  z-index: 99;
+  z-index : 99;
   width: 100%;
-
-  display: flex;
+  height : 4.3rem;
+  display : flex;
+  position : fixed;
 
   line-height: 1.8rem;
   border-bottom: 0.25px solid rgba(0, 0, 0, 0.5);
@@ -77,10 +78,16 @@ const NavigationBar = styled.nav`
   }
 `;
 
+export const NavBlank = styled.div`
+  height: 4.3rem;
+  content: " ";
+`;
+
 export default () => {
   const Univ = localStorage.getItem("Univ");
 
   return (
+    <>
     <NavigationBar>
       <LeftNav>
         <Logo to="/" />
@@ -91,5 +98,7 @@ export default () => {
         <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
       </RightNav>
     </NavigationBar>
+    <NavBlank></NavBlank>
+    </>
   );
 };
