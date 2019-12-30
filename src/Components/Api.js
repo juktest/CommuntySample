@@ -57,7 +57,7 @@ export const postCommunityComments = async (body, univid, postid) => {
 
 export const postCommunityPut = async (univid, postid, title, body) => {
   const writer = localStorage.getItem("userId");
-  await allApi.post(`/Community/${univid}/${postid}`, {
+  await allApi.put(`/Community/${univid}/${postid}`, {
     title: title,
     body: body,
     writer: writer
