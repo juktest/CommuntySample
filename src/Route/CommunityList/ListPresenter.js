@@ -71,7 +71,6 @@ const ListPresenter = ({
           <BoardTitle>작성자</BoardTitle>
           <BoardTitle>작성일</BoardTitle>
           <BoardTitle>조회수</BoardTitle>
-
           {stateNull
             ? ""
             : List.List.map((list, index) => (

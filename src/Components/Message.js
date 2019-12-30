@@ -32,17 +32,15 @@ const MessageContainer = styled.div`
 
 const Message = ({ error, message, univid }) => {
   if (error === true) {
-    console.log(message);
     return (
-      <MessageContainer error={true}>
+      <MessageContainer error={true} style={{ zIndex: 51 }}>
         {message}
         <div>학교 이름 : {univid}</div>
       </MessageContainer>
     );
   } else if (error === false) {
-    console.log(message);
     return (
-      <MessageContainer error={false}>
+      <MessageContainer error={false} style={{ zIndex: 51 }}>
         {message}
         <div>학교 이름 : {univid}</div>
       </MessageContainer>

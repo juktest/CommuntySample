@@ -4,8 +4,8 @@ const allApi = axios.create({
   baseURL: "https://api.codingnome.dev"
 });
 
-export const getPostsList = (univid, postid) => {
-  const Post = allApi
+export const getPostsList = async (univid, postid) => {
+  const Post = await allApi
     .get(`/Community/${univid}/${postid}`)
     .catch(function(error) {});
   return Post;
@@ -49,8 +49,9 @@ export const getCommunityComments = async (univid, postid) => {
 };
 
 export const postCommunityComments = async (body, univid, postid) => {
+  const writer = localStorage.getItem("userId");
   await allApi.post(`/Community/${univid}/${postid}/Comments`, {
-    writer: "testName",
+    writer: writer,
     body: body
   });
 };
@@ -59,6 +60,20 @@ export const postCommunityPut = async (univid, postid, title, body) => {
   const writer = localStorage.getItem("userId");
   await allApi.put(`/Community/${univid}/${postid}`, {
     title: title,
+    body: body,
+    writer: writer
+  });
+};
+
+//댓글 삭제
+export const deleteCommunityComments = async (univid, postid, commentId) => {
+  await allApi.delete(`/Community/${univid}/${postid}/Comments/${commentId}`);
+};
+
+//댓글 수정
+export const putCommunityComments = async (univid, postid, commentId, body) => {
+  const writer = localStorage.getItem("userId");
+  await allApi.put(`/Community/${univid}/${postid}/Comments/${commentId}`, {
     body: body,
     writer: writer
   });
