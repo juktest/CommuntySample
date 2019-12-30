@@ -67,10 +67,19 @@ const width = css`
     `}
 `;
 
-export const Container = styled.div`
+const container = css`
   width: 100%;
   ${margin};
+`
+export const Container = styled.div`
+  ${container}
 `;
+
+export const FlexContainer = styled.div`
+  ${container}
+  display : flex;
+`;
+
 
 export const Board = styled.div`
   width: 70%;
