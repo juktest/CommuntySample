@@ -1,9 +1,13 @@
+//Reactjs Library
 import React from "react";
+//ThirdParty Library
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+//style
 import logo from "img/titleIcon.png";
 import { Color } from "./Style";
 
+//style components
 export const Logo = styled(Link)`
   width: 10rem;
   height: 4rem;
@@ -83,6 +87,7 @@ export const NavBlank = styled.div`
   content: " ";
 `;
 
+//메인 함수
 export default () => {
   const Univ = localStorage.getItem("Univ");
 
@@ -96,7 +101,12 @@ export default () => {
           <NavItem to={`/room/${Univ}`}>방 리스트</NavItem>
           <NavItem to={`/community/${Univ}`}>커뮤니티</NavItem>
           <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
-          <NavItem to={"/login"}>로그인</NavItem>
+          <NavItem to={`/room/${Univ}`}>마이 페이지</NavItem>
+          {localStorage.getItem("LoggedIn") == "true" ? (
+            <NavItem to={"/logout"}> 로그아웃 </NavItem>
+          ) : (
+            <NavItem to={"/login"}>로그인</NavItem>
+          )}
         </RightNav>
       </NavigationBar>
       <NavBlank></NavBlank>
