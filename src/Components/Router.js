@@ -1,20 +1,25 @@
+//Reactjs Library
 import React, { useContext } from "react";
+//ThirdParty Library
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Redirect
 } from "react-router-dom";
+//Components
 import Header from "./Header";
 import CommunityDetail from "Route/CommunityDetail";
 import Home from "Route/Home";
 import CommunityList from "Route/CommunityList";
 import RoomList from "Route/RoomList";
-import Context, { GlobalUnivContext } from "./Context";
-import Seller from "../Route/Seller";
-import CommunityNew from "../Route/CommunityNew";
-import Login from "../Route/Login";
+import Seller from "Route/Seller";
+import CommunityNew from "Route/CommunityNew";
+import Login from "Route/Login";
 import CommunityModify from "Route/CommunityModify";
+import LogOut from "Route/LogOut";
+//context
+import Context, { GlobalUnivContext } from "./Context";
 
 export default () => {
   return (
@@ -37,6 +42,7 @@ export default () => {
           <Route path="/room/:univid" exact component={RoomList} />
           <Route path="/seller" exact component={Seller} />
           <Route path="/login" exact component={Login} />
+          <Route path="/logout" exact component={LogOut} />
         </Context>
       </Switch>
     </Router>

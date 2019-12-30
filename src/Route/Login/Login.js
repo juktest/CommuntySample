@@ -2,6 +2,7 @@ import React from "react";
 import Header from "../../Components/Header";
 import { Container } from "../../Components/Style";
 import styled from "styled-components";
+import { withRouter } from "react-router-dom";
 
 const InputId = styled.input``;
 const InputPassword = styled.input``;
@@ -15,20 +16,20 @@ const LogOutButton = styled.button`
   height: 30px;
 `;
 
-const handleIdSubmit = e => {
-  e.preventDefault();
-  localStorage.setItem("userId", e.target.children[0].value);
-  localStorage.setItem("LoggedIn", true);
-  window.location.reload();
-  // console.dir(e.target.children[1].value);
-};
-
 const handleLogOutSubmit = e => {
   localStorage.setItem("LoggedIn", false);
   window.location.reload();
 };
 
-const Login = () => {
+const Login = props => {
+  const handleIdSubmit = e => {
+    e.preventDefault();
+    localStorage.setItem("userId", e.target.children[0].value);
+    localStorage.setItem("LoggedIn", true);
+    // window.location.reload();
+    props.history.goBack();
+    // console.dir(e.target.children[1].value);
+  };
   return (
     <>
       <Header />
@@ -50,4 +51,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);
