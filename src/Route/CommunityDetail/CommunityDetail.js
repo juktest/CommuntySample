@@ -1,7 +1,21 @@
+//Reactjs Library
 import React, { useState, useEffect, useContext } from "react";
-import { getPostsList, deleteCommunityPost } from "Components/Api";
-import { convertFromRaw, EditorState, Editor, readOnly } from "draft-js";
+//ThirdParty Library
+import { convertFromRaw, EditorState, Editor } from "draft-js";
+import { withRouter, Link } from "react-router-dom";
+import styled from "styled-components";
+//Components
 import Header from "Components/Header";
+import { GlobalUnivContext } from "Components/Context";
+import {
+  getCommunityComments,
+  postCommunityComments,
+  deleteCommunityComments,
+  getPostsList,
+  deleteCommunityPost,
+  putCommunityComments
+} from "Components/Api";
+//Style
 import {
   Comment,
   FlexComponent,
@@ -9,69 +23,105 @@ import {
   BoardContent,
   CommentBox
 } from "./style";
-
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
-import { withRouter, Redirect, Link } from "react-router-dom";
-import { GlobalUnivContext } from "../../Components/Context";
-import {
-  getCommunityComments,
-  postCommunityComments
-} from "../../Components/Api";
-import styled from "styled-components";
 
+//styled-components
+const PostCommentForm = styled.form``;
+
+//메인함수
 const CommunityDetail = ({
   history,
   match: {
     params: { univid, postid }
-  },
-  location
+  }
 }) => {
-  const UnivContext = useContext(GlobalUnivContext);
-
-  const handleButtonGoToLists = e => {
-    document.location.href = `/community/${univid}`;
-  };
-  const handleClickForwardPost = e => {
-    document.location.href = `/detail/${univid}/${postid - 1}`;
-  };
-  const handleClickNextPost = e => {
-    document.location.href = `/detail/${univid}/${parseInt(postid) + 1}`;
-  };
-
-  const handleRemovePost = async e => {
-    await deleteCommunityPost(univid, postid);
-    await history.push(`/community/${univid}`);
-  };
-
+  //state초기화
+  //메인 state 초기화
   let [Post, SetState] = useState({
     title: "",
     writer: "",
     body: "",
     modifiedDate: "",
+    previd: "",
+    nextid: "",
     comments: []
   });
-
+  //draft.js state초기화
   let [editorState, setEditorState] = React.useState(EditorState.createEmpty());
 
+  //context사용
+  const UnivContext = useContext(GlobalUnivContext);
+
+  //draft.js
+  //draft.js custom style
+  const styleMap = {
+    HIGHLIGHT: {
+      backgroundColor: "red"
+    }
+  };
+
+  //Event handler
+  //리스트로 이동 버튼 클릭
+  const handleButtonGoToLists = e => {
+    document.location.href = `/community/${univid}`;
+  };
+  //이전글 클릭
+  const handleClickForwardPost = e => {
+    document.location.href = `/detail/${univid}/${Post.previd}`;
+  };
+  //다음글 클릭
+  const handleClickNextPost = e => {
+    document.location.href = `/detail/${univid}/${Post.nextid}`;
+  };
+  //삭제 클릭
+  const handledeletedata = async () => {
+    await deleteCommunityPost(univid, postid);
+    document.location.href = `/community/${univid}`;
+  };
+  //댓글입력 클릭
   const handlePostComment = async e => {
     e.preventDefault();
     await postCommunityComments(e.target.elements[0].value, univid, postid);
     await window.location.reload();
   };
-
-  const handleClickCommentRemove = e => {
-    console.dir(e.target.id);
+  //댓글삭제 클릭
+  const handleClickCommentRemove = async e => {
+    await deleteCommunityComments(univid, postid, e.target.id);
+    await window.location.reload();
   };
+  //댓글수정 클릭
+  const handleClickCommentModify = async e => {
+    const Input = document.createElement("textarea");
+    const InputButton = document.createElement("button");
+    const Id = e.target.id;
+    Input.style.width = "70%";
+    InputButton.style.width = "100px";
+    InputButton.style.height = "50px";
+    InputButton.innerText = "수정하기";
+    e.target.parentElement.parentElement.parentElement.children[1].appendChild(
+      Input
+    );
+    e.target.parentElement.parentElement.parentElement.children[1].appendChild(
+      InputButton
+    );
+    InputButton.addEventListener("click", async () => {
+      await putCommunityComments(univid, postid, Id, Input.value);
+      await window.location.reload();
+    });
+  };
+  //본문 정보 수정 방지용 가짜 핸들러
+  const handleFakeEditorChange = () => {};
 
-  const PostCommentForm = styled.form``;
-
+  //처음 로드할때 사용되는 함수
   const loaddata = async () => {
+    //api로 부터 글 정보 불러오기
     let serverPostList = await getPostsList(
       univid,
       postid,
       UnivContext.setError
     );
 
+    //api로부터 댓글 정보 불러오기
     let serverCommentList = await getCommunityComments(univid, postid);
 
     //접근할 수 없는 post번호에 접근했을경우
@@ -79,18 +129,24 @@ const CommunityDetail = ({
       history.go(-1);
     }
 
+    //정보를 state로 초기화
     serverPostList = serverPostList.data;
     SetState({
       title: serverPostList.title,
       writer: serverPostList.writer,
       body: serverPostList.body,
-      modifiedDate: serverPostList.modifiedDate
+      modifiedDate: serverPostList.modifiedDate,
+      previd: serverPostList.previd,
+      nextid: serverPostList.nextid
     });
     Post.title = serverPostList.title;
     Post.writer = serverPostList.writer;
     Post.body = serverPostList.body;
     Post.modifiedDate = serverPostList.modifiedDate;
+    Post.previd = serverPostList.previd;
+    Post.nextid = serverPostList.nextid;
 
+    //draft.js인코딩
     if (Post.body !== "") {
       const parseBody = JSON.parse(Post.body);
       const RawParseBody = convertFromRaw(parseBody);
@@ -98,34 +154,15 @@ const CommunityDetail = ({
       setEditorState(StateParseBody);
       editorState = StateParseBody;
     }
-
     SetState({ ...Post, comments: serverCommentList.data });
   };
 
-  const deletedata = async () => {
-    await deleteCommunityPost(univid, postid);
-    document.location.href = `/community/${univid}`;
-  };
-
-  const FakeEditorChange = () => {};
-
-  const modifydata = () => {};
-
+  //처음 로드했을 때 loaddata실행
   useEffect(() => {
     loaddata();
   }, []);
 
-  let stateNull = true;
-  if (Post.title !== "") {
-    stateNull = false;
-  }
-
-  const styleMap = {
-    HIGHLIGHT: {
-      backgroundColor: "red"
-    }
-  };
-
+  //리턴값
   return (
     <Container>
       <Header />
@@ -133,14 +170,14 @@ const CommunityDetail = ({
         <FlexComponent>
           <Button onClick={handleButtonGoToLists}>리스트로</Button>
           <FlexComponent direction="end">
-            {postid === "1" ? (
+            {Post.previd == "0" ? (
               ""
             ) : (
               <Button style={{ top: 0 }} onClick={handleClickForwardPost}>
                 이전글
               </Button>
             )}
-            {localStorage.getItem("LastList") == postid ? (
+            {Post.nextid == "0" ? (
               ""
             ) : (
               <Button
@@ -163,7 +200,7 @@ const CommunityDetail = ({
               Post.writer == localStorage.getItem("userId") ? (
                 <>
                   <Link to={`/community/modify/${univid}/${postid}`}>수정</Link>
-                  <Button radius="radius" onClick={deletedata}>
+                  <Button radius="radius" onClick={handledeletedata}>
                     삭제
                   </Button>
                 </>
@@ -182,7 +219,7 @@ const CommunityDetail = ({
           <BoardContent>
             <Editor
               editorState={editorState}
-              onChange={FakeEditorChange}
+              onChange={handleFakeEditorChange}
               customStyleMap={styleMap}
             />
           </BoardContent>
@@ -195,12 +232,17 @@ const CommunityDetail = ({
               <CommentBox>
                 <FlexComponent>
                   <div>{writer}</div>
-                  <FlexComponent>
-                    <SmallButton>수정</SmallButton>
-                    <SmallButton onClick={handleClickCommentRemove} id={id}>
-                      삭제
-                    </SmallButton>
-                  </FlexComponent>
+                  {localStorage.getItem("LoggedIn") == "true" &&
+                    localStorage.getItem("userId") == writer && (
+                      <FlexComponent>
+                        <SmallButton onClick={handleClickCommentModify} id={id}>
+                          수정
+                        </SmallButton>
+                        <SmallButton onClick={handleClickCommentRemove} id={id}>
+                          삭제
+                        </SmallButton>
+                      </FlexComponent>
+                    )}
                 </FlexComponent>
                 <div>{body}</div>
                 <div>{modifiedDate}</div>
@@ -209,18 +251,27 @@ const CommunityDetail = ({
           ) : (
             <CommentBox>Error</CommentBox>
           )}
-
-          <CommentBox style={{ flexDirection: "row" }}>
-            <PostCommentForm onSubmit={handlePostComment}>
-              <textarea id="comment_text" title="댓글입력" rows="3"></textarea>
-              <Button
-                style={{ position: "relative", top: "-8px" }}
-                type="submit"
-              >
-                댓글입력
-              </Button>
-            </PostCommentForm>
-          </CommentBox>
+          {localStorage.getItem("LoggedIn") == "true" ? (
+            <CommentBox style={{ flexDirection: "row" }}>
+              <PostCommentForm onSubmit={handlePostComment}>
+                <textarea
+                  id="comment_text"
+                  title="댓글입력"
+                  rows="3"
+                ></textarea>
+                <Button
+                  style={{ position: "relative", top: "-8px" }}
+                  type="submit"
+                >
+                  댓글입력
+                </Button>
+              </PostCommentForm>
+            </CommentBox>
+          ) : (
+            <CommentBox style={{ flexDirection: "row" }}>
+              로그인을 하셔야 댓글을 작성할 수 있습니다.
+            </CommentBox>
+          )}
         </Comment>
       </Board>
     </Container>

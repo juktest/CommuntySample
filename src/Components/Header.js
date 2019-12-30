@@ -60,11 +60,11 @@ export const RightNav = styled.div`
 `;
 
 const NavigationBar = styled.nav`
-  z-index : 99;
+  z-index: 50;
   width: 100%;
-  height : 4.3rem;
-  display : flex;
-  position : fixed;
+  height: 4.3rem;
+  display: flex;
+  position: fixed;
 
   line-height: 1.8rem;
   border-bottom: 0.25px solid rgba(0, 0, 0, 0.5);
@@ -88,18 +88,18 @@ export default () => {
 
   return (
     <>
-    <NavigationBar>
-      <LeftNav>
-        <Logo to="/" />
-      </LeftNav>
-      <RightNav>
-        <NavItem to={`/room/${Univ}`}>방 리스트</NavItem>
-        <NavItem to={`/community/${Univ}`}>커뮤니티</NavItem>
-        <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
-        <NavItem to={"/login"}>로그인</NavItem>
-      </RightNav>
-    </NavigationBar>
-    <NavBlank></NavBlank>
+      <NavigationBar>
+        <LeftNav>
+          <Logo to="/" />
+        </LeftNav>
+        <RightNav>
+          <NavItem to={`/room/${Univ}`}>방 리스트</NavItem>
+          <NavItem to={`/community/${Univ}`}>커뮤니티</NavItem>
+          <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
+          <NavItem to={"/login"}>로그인</NavItem>
+        </RightNav>
+      </NavigationBar>
+      <NavBlank></NavBlank>
     </>
   );
 };
