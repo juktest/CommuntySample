@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { getPostsList, deleteCommunityPost } from "Components/Api";
-import { convertFromRaw, EditorState, Editor } from "draft-js";
+import { convertFromRaw, EditorState, Editor, readOnly } from "draft-js";
 import Header from "Components/Header";
 import {
   Comment,
@@ -107,6 +107,8 @@ const CommunityDetail = ({
     document.location.href = `/community/${univid}`;
   };
 
+  const FakeEditorChange = () => {};
+
   const modifydata = () => {};
 
   useEffect(() => {
@@ -180,7 +182,7 @@ const CommunityDetail = ({
           <BoardContent>
             <Editor
               editorState={editorState}
-              onChange={setEditorState}
+              onChange={FakeEditorChange}
               customStyleMap={styleMap}
             />
           </BoardContent>
