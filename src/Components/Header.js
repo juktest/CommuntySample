@@ -101,9 +101,11 @@ export default () => {
           <NavItem to={`/room/${Univ}`}>방 리스트</NavItem>
           <NavItem to={`/community/${Univ}`}>커뮤니티</NavItem>
           <NavItem to={"/seller"}>방 판매자 페이지</NavItem>
-          <NavItem to={`/room/${Univ}`}>마이 페이지</NavItem>
           {localStorage.getItem("LoggedIn") == "true" ? (
-            <NavItem to={"/logout"}> 로그아웃 </NavItem>
+            <>
+              <NavItem to={`/room/${Univ}`}>마이 페이지</NavItem>
+              <NavItem to={"/logout"}> 로그아웃 </NavItem>
+            </>
           ) : (
             <NavItem to={"/login"}>로그인</NavItem>
           )}
