@@ -11,7 +11,7 @@ import {
 } from "./style";
 
 import { Color, SmallButton, Container, Board, Button } from "Components/Style";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter, Redirect, Link } from "react-router-dom";
 import { GlobalUnivContext } from "../../Components/Context";
 import {
   getCommunityComments,
@@ -107,6 +107,8 @@ const CommunityDetail = ({
     document.location.href = `/community/${univid}`;
   };
 
+  const modifydata = () => {};
+
   useEffect(() => {
     loaddata();
   }, []);
@@ -158,7 +160,7 @@ const CommunityDetail = ({
               {localStorage.getItem("LoggedIn") == "true" &&
               Post.writer == localStorage.getItem("userId") ? (
                 <>
-                  <Button radius="radius">수정</Button>
+                  <Link to={`/community/modify/${univid}/${postid}`}>수정</Link>
                   <Button radius="radius" onClick={deletedata}>
                     삭제
                   </Button>
