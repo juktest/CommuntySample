@@ -117,19 +117,18 @@ const RadiusButtonCss = css`
   border-radius: 10px;
 `;
 
-const Buttoncss = css`
-  ${RecCss};
-  ${({ radius }) => radius === "radius" && RadiusButtonCss}
+export const Buttoncss = css`
 
   color : white;
   background-color: pink;
   border: 2px solid;
-  &:hover {
+  :hover {
     color: pink;
     background-color: white;
     border: 2px solid pink;
   }
-
+  ${RecCss};
+  ${({ radius }) => radius === "radius" && RadiusButtonCss}
   ${({ color }) => css`
     background-color: ${color};
 

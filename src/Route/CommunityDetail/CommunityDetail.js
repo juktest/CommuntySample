@@ -23,7 +23,7 @@ import {
   BoardContent,
   CommentBox
 } from "./style";
-import { Color, SmallButton, Container, Board, Button } from "Components/Style";
+import { Color, SmallButton, Container, Board, Button,Buttoncss } from "Components/Style";
 
 //styled-components
 const PostCommentForm = styled.form``;
@@ -94,9 +94,12 @@ const CommunityDetail = ({
     const Input = document.createElement("textarea");
     const InputButton = document.createElement("button");
     const Id = e.target.id;
-    Input.style.width = "70%";
-    InputButton.style.width = "100px";
-    InputButton.style.height = "50px";
+    const body = document.getElementById("body");
+    body.innerHTML = "";
+   
+    Input.value = e.target.dataset.body;
+    InputButton.style = Buttoncss;
+    InputButton.style.marginTop = "3px";
     InputButton.innerText = "수정하기";
     e.target.parentElement.parentElement.parentElement.children[1].appendChild(
       Input
@@ -232,10 +235,11 @@ const CommunityDetail = ({
               <CommentBox>
                 <FlexComponent>
                   <div>{writer}</div>
+                  {console.log(body)}
                   {localStorage.getItem("LoggedIn") == "true" &&
                     localStorage.getItem("userId") == writer && (
                       <FlexComponent>
-                        <SmallButton onClick={handleClickCommentModify} id={id}>
+                        <SmallButton onClick={handleClickCommentModify} id={id} data-body = {body}>
                           수정
                         </SmallButton>
                         <SmallButton onClick={handleClickCommentRemove} id={id}>
@@ -244,7 +248,7 @@ const CommunityDetail = ({
                       </FlexComponent>
                     )}
                 </FlexComponent>
-                <div>{body}</div>
+                <div id = "body">{body}</div>
                 <div>{modifiedDate}</div>
               </CommentBox>
             ))

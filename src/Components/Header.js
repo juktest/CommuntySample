@@ -28,8 +28,10 @@ export const Logo = styled(Link)`
 
 export const NavItem = styled(Link)`
   font-size: 1.2rem;
+  line-height : 1.9rem;
   text-decoration: none;
-  min-width: fit-content;
+  min-width: max-content;
+
   color: ${Color.mint};
 
   padding: 1.2rem;
@@ -61,6 +63,7 @@ export const RightNav = styled.div`
   justify-content: flex-end;
   width: 50%;
   margin-left: 0.8rem;
+
 `;
 
 const NavigationBar = styled.nav`
@@ -85,6 +88,7 @@ const NavigationBar = styled.nav`
 export const NavBlank = styled.div`
   height: 4.3rem;
   content: " ";
+
 `;
 
 //메인 함수
