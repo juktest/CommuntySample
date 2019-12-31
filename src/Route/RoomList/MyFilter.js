@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { Button } from "Components/Style";
 
+import CustomSlider from "./CustomSlider";
+import { CFlexContainer, FlexContainer } from "../../Components/Style";
 export const FilterComponent = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   background-color: white;
+  user-select: none;
 `;
 
 export const FilterContainer = styled.div`
@@ -18,7 +21,7 @@ export const FilterContainer = styled.div`
 `;
 
 export const FilterItem = styled.div`
-  font-weight: border;
+  font-weight: 800;
   margin-bottom: 0.7rem;
 `;
 
@@ -53,7 +56,42 @@ export const SelectComponent = styled.select`
   height: 26px;
 `;
 
+const CheckBox = styled.input`
+  display: none;
+
+  + label {
+    display: inline-block;
+    width: max-content;
+    margin-bottom: 10px;
+    cursor: pointer;
+    font-size: 1.3rem;
+  }
+
+  + label:before {
+    display: inline-block;
+    content: "";
+    width: 1.3rem;
+    height: 1.3rem;
+    background-color: pink;
+    border-radius: 2px;
+    margin-right: 5px;
+  }
+
+  &:checked {
+    + label:before {
+      content: "\u2713";
+      color: white;
+      text-align: center;
+    }
+  }
+`;
+
 function MyFilter({ onFilter }) {
+  const value = {
+    min: 0,
+    max: 100,
+    value: 50
+  };
   return (
     <FilterComponent>
       <FilterContainer>
@@ -64,7 +102,7 @@ function MyFilter({ onFilter }) {
         </FilterSelectItem>
       </FilterContainer>
       <FilterContainer>
-        <FilterItem>보증금/전세</FilterItem>
+        <FilterItem>보증금</FilterItem>
         <FilterSelectItem>
           <SelectComponent>
             <option>전체</option>
@@ -118,7 +156,10 @@ function MyFilter({ onFilter }) {
           </SelectComponent>
         </FilterSelectItem>
       </FilterContainer>
-
+      <FilterContainer>
+        <FilterItem>최소평점</FilterItem>
+        <CustomSlider min={0} max={5} step={0.5} value={3}></CustomSlider>
+      </FilterContainer>
       <FilterContainer>
         <FilterItem>구조</FilterItem>
         <FilterSelectItem>
@@ -127,7 +168,6 @@ function MyFilter({ onFilter }) {
           <FilterOptionItem>복층형</FilterOptionItem>
         </FilterSelectItem>
       </FilterContainer>
-
       <FilterContainer>
         <FilterItem>평수</FilterItem>
         <FilterSelectItem>
@@ -136,7 +176,6 @@ function MyFilter({ onFilter }) {
           <FilterOptionItem>11평이상</FilterOptionItem>
         </FilterSelectItem>
       </FilterContainer>
-
       <FilterContainer>
         <FilterItem>층수</FilterItem>
         <FilterSelectItem>
@@ -146,9 +185,39 @@ function MyFilter({ onFilter }) {
           <FilterOptionItem>옥탑</FilterOptionItem>
         </FilterSelectItem>
       </FilterContainer>
-     
 
-      <Button onClick={onFilter}>등록</Button>
+      <FilterContainer>
+        <FilterItem>옵션</FilterItem>
+        <FlexContainer mb="20px">
+          <CFlexContainer>
+            <CheckBox
+              style={{ display: "none" }}
+              id="elevator"
+              type="checkbox"
+            />
+            <label for="elevator">엘리베이터</label>
+            <CheckBox id="park" type="checkbox" />
+            <label for="park">공원</label>
+            <CheckBox id="cctv" type="checkbox" />
+            <label for="cctv">CCTV</label>
+            <CheckBox id="autoDoor" type="checkbox" />
+            <label for="autoDoor">자동문</label>
+          </CFlexContainer>
+          <CFlexContainer>
+            <CheckBox id="washingMachine" type="checkbox" />
+            <label for="washingMachine">식기세척기</label>
+            <CheckBox id="gasrange" type="checkbox" />
+            <label for="gasrange">가스레인지</label>
+            <CheckBox id="refrigerator" type="checkbox" />
+            <label for="refrigerator">냉장고</label>
+            <CheckBox id="airconditioner" type="checkbox" />
+            <label for="airconditioner">에어컨</label>
+          </CFlexContainer>
+        </FlexContainer>
+      </FilterContainer>
+      <Button mb="5px" onClick={onFilter}>
+        등록
+      </Button>
     </FilterComponent>
   );
 }

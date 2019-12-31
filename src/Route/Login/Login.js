@@ -1,10 +1,16 @@
 import React from "react";
 import Header from "../../Components/Header";
-import { Container } from "../../Components/Style";
+import { Container, Board } from "Components/Style";
 import styled from "styled-components";
 
-const InputId = styled.input``;
-const InputPassword = styled.input``;
+const InputId = styled.input`
+  display: block;
+`;
+
+const InputPassword = styled.input`
+  display: block;
+`;
+
 const SubmitButton = styled.button`
   width: 30px;
   height: 30px;
@@ -30,9 +36,9 @@ const handleLogOutSubmit = e => {
 
 const Login = () => {
   return (
-    <>
+    <Container>
       <Header />
-      <Container>
+      <Board width="50%">
         <div>Login</div>
         {localStorage.getItem("LoggedIn") == "true" ? (
           <SubmitForm onSubmit={handleLogOutSubmit}>
@@ -45,8 +51,8 @@ const Login = () => {
             <SubmitButton type="submit" />
           </SubmitForm>
         )}
-      </Container>
-    </>
+      </Board>
+    </Container>
   );
 };
 

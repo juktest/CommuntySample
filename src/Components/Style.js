@@ -70,6 +70,7 @@ const width = css`
 const container = css`
   width: 100%;
   ${margin};
+  ${padding};
 `
 export const Container = styled.div`
   ${container}
@@ -79,6 +80,12 @@ export const FlexContainer = styled.div`
   ${container}
   display : flex;
 `;
+export const CFlexContainer = styled.div`
+  ${container}
+  display : flex;
+  flex-direction : column;
+`;
+
 
 
 export const Board = styled.div`
@@ -101,6 +108,7 @@ const RecCss = css`
   cursor: pointer;
   position: relative;
   top: -0.5rem;
+  ${margin};
 `;
 
 const RadiusButtonCss = css`

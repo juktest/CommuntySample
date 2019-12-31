@@ -136,15 +136,16 @@ function RoomItem({
     >
       <img src={thumbnail} alt="thumbnailimage" />
       <RoomMoneyComponent>
-        <li>{price.type}</li>
-        <li>{price.deposit}</li>
-        {price.type === "월세" && <li>/{price.month}</li>}
+        <li>월세</li>
+        <li>
+          {price.deposit}/{price.month}
+        </li>
       </RoomMoneyComponent>
       <BoxComponent>{structure}</BoxComponent>
       <BoxComponent>*{grade}</BoxComponent>
       <RoomDistanceComponent>{distance}</RoomDistanceComponent>
       <RoomAreaComponent>
-        {scale}/{floor}층
+        {scale}m<sup>2</sup>/{floor}층
       </RoomAreaComponent>
       <img src={heart} alt="heart"></img>
     </RoomItemComponent>
@@ -165,119 +166,7 @@ function Room() {
         adminExpnse: 5
       },
       floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
-      grade: 3,
-      distance: "120m"
-    },
-    {
-      roomid: 1,
-      thumbnail:
-        "https://ic.zigbang.com/ic/items/19317951/1.jpg?w=800&h=600&q=70&a=1",
-      structure: "원룸",
-      price: {
-        type: "전세",
-        deposit: 15200,
-        month: 50,
-        adminExpnse: 5
-      },
-      floor: 1,
-      scale: "38m^2",
+      scale: "38",
       grade: 3,
       distance: "120m"
     }
