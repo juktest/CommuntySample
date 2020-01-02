@@ -146,7 +146,6 @@ const Modify = ({
       body = JSON.stringify(body);
       await postCommunityPut(univid, postid, title, body);
       await history.push(`/community/1`);
-      console.log(history);
     } else if (title === "") {
       alert("제목을 작성해주세요");
     } else {

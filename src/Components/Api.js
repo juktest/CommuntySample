@@ -27,8 +27,9 @@ export const getRoomList = async (univid, setError) => {
   return List;
 };
 
-export const postCommunityPost = async (title, body) => {
-  await allApi
+//커뮤니티 글올리기
+export const postCommunityPost = async (title, body, image) => {
+  const getId = await allApi
     .post(`/Community/1`, {
       writer: localStorage.getItem("userId"),
       title: title,
@@ -37,6 +38,22 @@ export const postCommunityPost = async (title, body) => {
     .catch(function() {
       console.log("실패");
     });
+
+  let fd = new FormData();
+  fd.append("file", image);
+  const getImageId = await allApi.post(
+    `/Community/1/${getId.data}/image/1`,
+    fd
+  );
+
+  console.log(getImageId.data);
+
+  await allApi.put(`/Community/1/${getId.data}`, {
+    title: title,
+    body: body,
+    writer: localStorage.getItem("userId"),
+    image: getImageId.data
+  });
 };
 
 export const deleteCommunityPost = async (univid, postid) => {
